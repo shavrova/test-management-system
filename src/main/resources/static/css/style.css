@@ -1,0 +1,20 @@
+input{
+width: 100%;
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+background: inherit;
+color: white;
+}
+
+input[name="testId"] {
+  background: inherit;
+}
+
+i{
+font-size:24px;
+color:white;
+text-align: center;
+}
+
+
