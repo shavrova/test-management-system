@@ -5,8 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -14,13 +17,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Entity
 @Table(name = "steps")
-public class Step {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-
+public class Step extends BaseEntity{
 
     @NotBlank
     @Column(name = "step_description")
@@ -28,6 +25,19 @@ public class Step {
 
     public Step(String stepDescription) {
         this.stepDescription = stepDescription;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Step step = (Step) o;
+        return Objects.equals(this.stepDescription, step.stepDescription);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.stepDescription)+56;
     }
 
 }

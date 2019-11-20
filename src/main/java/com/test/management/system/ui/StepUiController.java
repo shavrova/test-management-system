@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping(path = "/")
@@ -17,14 +17,14 @@ public class StepUiController {
     StepService stepService;
 
     @PostMapping("/deleteStep")
-    public String deleteStep(@RequestParam("stepId") int id) {
-        stepService.deleteStep(id);
+    public String deleteStep(@RequestParam("stepId") Long id) {
+        stepService.deleteById(id);
         return "redirect:/showAllSteps";
     }
 
     @GetMapping("/showAllSteps")
     public String showAllSteps(Model model) {
-        List<Step> allSteps = stepService.getAllSteps();
+        Set<Step> allSteps = stepService.findAll();
         model.addAttribute("allSteps", allSteps);
         Step step = new Step();
         model.addAttribute("step", step);
@@ -37,7 +37,7 @@ public class StepUiController {
             return "steps-list";
         } else {
             Step step = new Step(stepDescription);
-            stepService.addStep(step);
+            stepService.save(step);
         }
         return "redirect:/showAllSteps";
     }

@@ -1,32 +1,30 @@
 package com.test.management.system.service;
 
 import com.test.management.system.entity.Step;
-import com.test.management.system.entity.Test;
-import com.test.management.system.exception.TestNotFoundException;
+import com.test.management.system.exception.ItemNotFoundException;
 import com.test.management.system.repository.StepRepository;
-import com.test.management.system.repository.TestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class StepServiceImpl implements StepService {
 
-    @Autowired
     StepRepository stepRepository;
 
-    @Autowired
-    TestService testService;
-
-    @Override
-    public List<Step> getAllSteps() {
-        return stepRepository.findAll();
+    public StepServiceImpl(StepRepository stepRepository) {
+        this.stepRepository = stepRepository;
     }
 
     @Override
-    public Step getSteps(int stepId) {
+    public Set<Step> findAll() {
+        return new HashSet<>(stepRepository.findAll());
+    }
+
+    @Override
+    public Step findById(Long stepId) {
         Optional<Step> res = stepRepository.findById(stepId);
 
         Step step;
@@ -34,36 +32,18 @@ public class StepServiceImpl implements StepService {
         if (res.isPresent()) {
             step = res.get();
         } else {
-            throw new RuntimeException("Can't find test with id " + stepId);
+            throw new ItemNotFoundException("Can't find step with id " + stepId);
         }
         return step;
-
     }
 
     @Override
-    public void addStep(Step step) {
-        stepRepository.save(step);
+    public Step save(Step step) {
+        return stepRepository.save(step);
     }
 
     @Override
-    public void deleteStep(int stepId) {
+    public void deleteById(Long stepId) {
         stepRepository.deleteById(stepId);
     }
-
-    @Override
-    public List<Step> getStepsForTest(int testId) {
-
-        Test test = testService.getTest(testId);
-
-        if (test == null) {
-            throw new TestNotFoundException("Test id not found - " + testId);
-        }
-        List<Step> steps = test.getSteps();
-        if (steps == null) {
-            throw new TestNotFoundException(String.format("Test %s doesn't contain steps", testId));
-        }
-        return steps;
-
-    }
-
 }

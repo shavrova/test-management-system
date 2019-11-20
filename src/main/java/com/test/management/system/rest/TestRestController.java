@@ -2,77 +2,79 @@ package com.test.management.system.rest;
 
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
-import com.test.management.system.exception.TestNotFoundException;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/api")
 public class TestRestController {
 
-
-    @Autowired
     private TestService testService;
-
-    @Autowired
     private StepService stepService;
 
+    public TestRestController(TestService testService, StepService stepService) {
+        this.testService = testService;
+        this.stepService = stepService;
+    }
 
     @GetMapping("/tests")
-    public List<Test> getTests() {
-        return testService.getTests();
+    public Set<Test> getTests() {
+        return testService.findAll();
     }
 
 
     @GetMapping("/tests/{testId}")
-    public Test getTest(@PathVariable int testId) {
-        Test test = testService.getTest(testId);
-        if (test == null) {
-            throw new TestNotFoundException("Test id not found - " + testId);
-        }
-        return test;
+    public Test getTest(@PathVariable Long testId) {
+        return testService.findById(testId);
     }
 
 
     @PostMapping("/tests")
     public Test addTest(@RequestBody Test test) {
-        test.setId(0);
-        testService.saveTest(test);
+        testService.save(test);
         return test;
     }
 
 
-    @PutMapping("/tests")
+    @PutMapping("/tests/")
     public Test updateTest(@RequestBody Test test) {
-        testService.saveTest(test);
+        testService.save(test);
         return test;
 
+    }
+
+    @GetMapping("/tests/{testId}/steps")
+    public List<Step> getStepsForTest(@PathVariable Long testId) {
+        return testService.getSteps(testId);
     }
 
 
     @DeleteMapping("/tests/{testId}")
-    public String deleteTest(@PathVariable int testId) {
-        Test tempTest = testService.getTest(testId);
-        if (tempTest == null) {
-            throw new TestNotFoundException("Test id not found - " + testId);
-        }
-        testService.deleteTest(testId);
-        return "Test " + testId + "was deleted";
+    public String deleteTest(@PathVariable Long testId) {
+        testService.deleteById(testId);
+        return "Test " + testId + " was deleted";
     }
 
-
-    @GetMapping("/steps/{testId}")
-    public List<Step> getStepsForTest(@PathVariable int testId) {
-
-        return stepService.getStepsForTest(testId);
+    @PostMapping("/tests/{testId}/steps/{stepId}")
+    public Test addStepToTest(@PathVariable Long testId, @PathVariable Long stepId) {
+        Test test = testService.findById(testId);
+        Step step = stepService.findById(stepId);
+        test.addStep(step);
+        testService.save(test);
+        return test;
     }
 
-    @ModelAttribute("steps")
-    public List<Step> getSteps() {
-        return stepService.getAllSteps();
+    @DeleteMapping("/tests/{testId}/steps/{stepId}")
+    public String deleteStepFromTest(@PathVariable Long testId, @PathVariable Long stepId) {
+        Test test = testService.findById(testId);
+        Step step = stepService.findById(stepId);
+        test.removeStep(step);
+        testService.save(test);
+        return String.format("Step %1$s was unlinked from test %2$s", stepId, testId);
     }
+
 }

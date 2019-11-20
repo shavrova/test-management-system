@@ -9,17 +9,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class TestRestExceptionHandler {
 
 	@ExceptionHandler
-	public ResponseEntity<TestErrorResponse> handleException(TestNotFoundException exc) {
-		TestErrorResponse error = new TestErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage());
+	public ResponseEntity<ErrorResponse> handleException(ItemNotFoundException exc) {
+		ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage());
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler
-	public ResponseEntity<TestErrorResponse> handleException(Exception exc) {
-		TestErrorResponse error = new TestErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
+	public ResponseEntity<ErrorResponse> handleException(Exception exc) {
+		ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
-	
+
+	@ExceptionHandler
+	public ResponseEntity<ErrorResponse> handleException(NotAllowedException exc) {
+		ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), exc.getMessage());
+		return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+	}
+
+
 }
 
 

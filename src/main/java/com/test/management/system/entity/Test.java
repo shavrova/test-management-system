@@ -6,12 +6,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -19,30 +18,22 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "tests")
-public class Test {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+public class Test extends BaseEntity {
 
     @NotNull
-    @Size(min=2, max=100)
+    @Size(min = 2, max = 100)
     @Column(name = "test_name")
     private String testName;
 
     @Column(name = "test_description")
     private String testDescription;
 
-
-
-    @ManyToMany(fetch=FetchType.EAGER,
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name="test_step",
-               joinColumns=@JoinColumn(name="test_id"),
-               inverseJoinColumns=@JoinColumn(name="step_id"))
-    private List<Step> steps;
-
+    @OneToMany(
+            mappedBy = "test",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TestStep> steps = new ArrayList<>();
 
     public Test(String testName, String testDescription) {
         this.testName = testName;
@@ -50,12 +41,43 @@ public class Test {
     }
 
     public void addStep(Step step) {
+        TestStep testStep = new TestStep(this, step);
 
-        if (step == null) {
-            steps = new ArrayList<>();
-        }
+        testStep.setStepOrder(steps.size() + 1);
+        steps.add(testStep);
 
-        steps.add(step);
+    }
+
+    public boolean containsStep(Step step) {
+        return steps.stream()
+                .anyMatch(s -> s.getId().getStepId() == step.getId());
+    }
+
+
+    private void fixStepsOrder() {
+        steps.stream().forEach(s -> s.setStepOrder(steps.indexOf(s) + 1));
+    }
+
+    public void removeStep(Step step) {
+        steps.removeIf((TestStep ts) -> ts.getTest().equals(this) &&
+                ts.getStep().equals(step));
+        fixStepsOrder();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Test test = (Test) o;
+        return Objects.equals(this.testName, test.testName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.testName) + 45;
     }
 
 }
