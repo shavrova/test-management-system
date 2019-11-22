@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity(name = "TestStep")
 @Table(name = "test_step")
-public class TestStep {
+public class TestStep implements Comparable<TestStep> {
 
     @EmbeddedId
     private TestStepId id;
@@ -30,7 +30,7 @@ public class TestStep {
     private Step step;
 
     @Column(name = "step_order")
-    private int stepOrder;
+    private Integer stepOrder;
 
     public TestStep(Test test, Step step) {
         this.test = test;
@@ -54,4 +54,9 @@ public class TestStep {
     public int hashCode() {
         return Objects.hash(test, step);
     }
+
+    @Override
+    public int compareTo(TestStep ts) {
+        return this.getStepOrder().compareTo(ts.getStepOrder());
+}
 }

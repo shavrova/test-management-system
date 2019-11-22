@@ -8,7 +8,6 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Getter
@@ -19,7 +18,6 @@ import java.util.Objects;
 @Table(name = "steps")
 public class Step extends BaseEntity{
 
-    @NotBlank
     @Column(name = "step_description")
     private String stepDescription;
 

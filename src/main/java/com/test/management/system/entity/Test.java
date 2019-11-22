@@ -42,10 +42,8 @@ public class Test extends BaseEntity {
 
     public void addStep(Step step) {
         TestStep testStep = new TestStep(this, step);
-
         testStep.setStepOrder(steps.size() + 1);
         steps.add(testStep);
-
     }
 
     public boolean containsStep(Step step) {

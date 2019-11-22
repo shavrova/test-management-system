@@ -43,8 +43,9 @@
                 <td th:text="${tempTest.testDescription}"/>
                 <td>
                     <div th:each="tempSteps:${tempTest.steps}">
-                        <span th:text="${tempStepsStat.index+1}">.</span>
-                        <span th:text="${tempSteps.stepDescription}"></span>
+                        <!--<span th:text="${tempStepsStat.index+1}">.</span>-->
+                        <span th:text="${tempSteps.stepOrder}"></span>
+                        <span th:text="${tempSteps.step.stepDescription}"></span>
                     </div>
                 </td>
                 <td>

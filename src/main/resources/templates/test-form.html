@@ -65,11 +65,16 @@
                                 </div>
                                 <div class="row item" th:each="step, status : ${test.steps}">
                                     <div class="col form-group d-none">
-                                        <input th:field="*{steps[__${status.index}__].id}" type="text"
-                                               class="form-control">
+                                        <input th:field="*{steps[__${status.index}__].id.stepId}" type="hidden">
+                                    </div>
+                                    <div class="col form-group d-none">
+                                        <input th:field="*{steps[__${status.index}__].id.testId}" type="hidden">
+                                    </div>
+                                    <div class="col form-group d-none">
+                                        <input th:field="*{steps[__${status.index}__].stepOrder}" type="hidden">
                                     </div>
                                     <div class="col form-group">
-                                        <input th:field="*{steps[__${status.index}__].stepDescription}" type="text"
+                                        <input th:field="*{steps[__${status.index}__].step.stepDescription}" type="text"
                                                class="form-control">
                                     </div>
                                 </div>
