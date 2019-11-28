@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +19,10 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "steps")
+@NaturalIdCache
+@Cache(
+        usage = CacheConcurrencyStrategy.READ_WRITE
+)
 public class Step extends BaseEntity{
 
     @Column(name = "step_description")

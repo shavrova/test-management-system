@@ -5,9 +5,8 @@ import com.test.management.system.exception.ItemNotFoundException;
 import com.test.management.system.repository.StepRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StepServiceImpl implements StepService {
@@ -45,5 +44,20 @@ public class StepServiceImpl implements StepService {
     @Override
     public void deleteById(Long stepId) {
         stepRepository.deleteById(stepId);
+    }
+
+
+    @Override
+    public List<Step> findByPartialDescription(String searchKey) {
+        return stepRepository.findAll().stream()
+                .filter(s -> s.getStepDescription().toLowerCase().contains(searchKey.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Step findByDescription(String stepDescription) {
+        return stepRepository.findAll().stream()
+                .filter(step -> step.getStepDescription().equalsIgnoreCase(stepDescription.trim()))
+                .findAny().orElse(null);
     }
 }

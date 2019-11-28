@@ -1,19 +1,25 @@
 package com.test.management.system.ui;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
 import com.test.management.system.entity.TestStep;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/")
@@ -31,23 +37,28 @@ public class TestUiController {
         model.addAttribute("tests", allTests);
         Test test = new Test();
         model.addAttribute("test", test);
-        List<TestStep> ts = test.getSteps();
-        //.forEach(s->s.getStep().getStepDescription());
         return "tests-list";
     }
+
 
     @PostMapping("/save")
     public String saveTest(
             @ModelAttribute @Valid Test test,
             BindingResult bindingResult,
-            @RequestParam(required = false) Set<String> newStepDescription) {
-        if (!newStepDescription.isEmpty()) {
-            newStepDescription.forEach(s -> {
-                Step step = new Step(s);
-                stepService.save(step);
-                test.addStep(step);
-            });
-        }
+            @RequestParam(required = false) Set<String> description) {
+
+        description
+                .stream()
+                .forEach(s -> {
+                    if (stepService.findByDescription(s) != null) {
+                        test.addStep(stepService.findByDescription(s));
+                    } else {
+                        description.forEach(k -> System.out.println("description + " + k.indexOf(k) + " - " + k));
+                        Step step = new Step(s);
+                        Step created = stepService.save(step);
+                        test.addStep(step);
+                    }
+                });
         testService.save(test);
         return "redirect:/tests";
     }
@@ -69,16 +80,17 @@ public class TestUiController {
         return "redirect:/tests";
     }
 
-    @PostMapping("/addStepToTest")
-    public String addStepToTest(@RequestParam("stepId") Long stepId, @RequestParam("testId") Long testId, Model model) {
-        Test test = testService.findById(testId);
-        Step step = stepService.findById(stepId);
-        test.addStep(step);
-        testService.save(test);
-
-        model.addAttribute("test", test);
-        Set<Step> allSteps = stepService.findAll();
-        model.addAttribute("allSteps", allSteps);
-        return "test-form";
+    @GetMapping(value = "/search")
+    public ResponseEntity<String> getAllSteps(@RequestParam("q") String input) {
+        List<String> result = stepService.findByPartialDescription(input)
+                .stream()
+                .map(Step::getStepDescription)
+                .collect(Collectors.toList());
+        String resp = "";
+        try {
+            resp = new ObjectMapper().writeValueAsString(result);
+        } catch (JsonProcessingException e) {
+        }
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

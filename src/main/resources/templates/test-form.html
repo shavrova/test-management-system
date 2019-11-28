@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script type="text/javascript" th:src="@{/scripts/script.js}"></script>
 
+    <link rel="stylesheet"
+          href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/static/css/autocomplete.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
@@ -73,6 +76,10 @@
                                     <div class="col form-group d-none">
                                         <input th:field="*{steps[__${status.index}__].stepOrder}" type="hidden">
                                     </div>
+                                    <div class="col form-group d-none">
+                                        <input th:field="*{steps[__${status.index}__].step.id}" type="hidden"
+                                               class="form-control">
+                                    </div>
                                     <div class="col form-group">
                                         <input th:field="*{steps[__${status.index}__].step.stepDescription}" type="text"
                                                class="form-control">
@@ -86,67 +93,17 @@
                             <button type="button" class="btn btn-primary" onclick="addRow()">Add New Step
                             </button>
                         </div>
-                        <div class="col ">
-                            <button type="button" class="btn btn-primary " onclick="addRow()" data-toggle="modal"
-                                    data-target="#addStepModal">Find Step
-                            </button>
-                        </div>
-
                     </div>
 
                 </div>
             </div>
             <div class="row text-right">
                 <div class="col">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="tn btn-success">Save</button>
                 </div>
             </div>
         </div>
     </form>
-</div>
-<div class="modal fade" id="addStepModal" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table class="table table-striped table-dark">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th>Step ID</th>
-                        <th>Step Name</th>
-                        <th>Add</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <th:block th:each="tempStep : ${allSteps}">
-                        <tr>
-                            <td th:text="${tempStep.id}"/>
-                            <td th:text="${tempStep.stepDescription}"/>
-                            <td>
-                                <form action="#" th:object="${test}" th:action="@{/addStepToTest}"
-                                      method="POST">
-                                    <input type="hidden" name="testId"
-                                           th:value="${test.id}"/>
-                                    <input type="hidden" name="stepId"
-                                           th:value="${tempStep.id}"/>
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fa fa-plus-circle"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    </th:block>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 </div>
 </body>
 </html>

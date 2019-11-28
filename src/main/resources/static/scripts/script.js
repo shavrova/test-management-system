@@ -8,10 +8,29 @@ let addRow = function () {
             let input = document.createElement('input');
             input.type = 'text';
             input.classList.add('form-control');
-            input.setAttribute('name', 'newStepDescription');
+            input.setAttribute('name', 'description');
+            input.id = 'autocomplete-input';
             col.appendChild(input);
             row.appendChild(col);
         document.getElementById('stepsList').appendChild(row);
+        	$(function() {
+        		$("#autocomplete-input").autocomplete({
+        			source : function(request, response) {
+        				$.ajax({
+        					url : "http://localhost:8080/search",
+        					dataType : "json",
+        					data : {
+        						q : request.term
+        					},
+        					success : function(data) {
+        						console.log(data);
+        						response(data);
+        					}
+        				});
+        			},
+        			minLength : 2
+        		});
+        	});
 };
 
 let submitOnEnter = function() {
@@ -24,3 +43,5 @@ let submitOnEnter = function() {
         }
     });
 };
+
+
