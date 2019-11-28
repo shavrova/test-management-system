@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
-import com.test.management.system.entity.TestStep;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,6 +38,12 @@ public class TestUiController {
         return "tests-list";
     }
 
+    @PostMapping("/addTest")
+    public String addTest(@ModelAttribute Test test) {
+        testService.save(test);
+        return "redirect:/tests";
+    }
+
 
     @PostMapping("/save")
     public String saveTest(
@@ -53,9 +57,8 @@ public class TestUiController {
                     if (stepService.findByDescription(s) != null) {
                         test.addStep(stepService.findByDescription(s));
                     } else {
-                        description.forEach(k -> System.out.println("description + " + k.indexOf(k) + " - " + k));
                         Step step = new Step(s);
-                        Step created = stepService.save(step);
+                        stepService.save(step);
                         test.addStep(step);
                     }
                 });

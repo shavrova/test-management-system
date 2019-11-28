@@ -72,14 +72,13 @@
             </tr>
         </th:block>
         <tr>
-            <form id="addTest" action="#" th:action="@{/save}" th:object="${test}" method="POST">
+            <form id="addTest" action="#" th:action="@{/addTest}" th:object="${test}" method="POST">
                 <td>
                     <input type="hidden" th:field="*{id}"/>
                     <i class="fas fa-file-alt"></i>
                 </td>
                 <td>
-                    <input type="text" th:field="*{testName}" class="form-control" placeholder="Test Name"
-                           name="testNameField" required>
+                    <input type="text" th:field="*{testName}" class="form-control" placeholder="Test Name" required>
                 </td>
                 <td>
                     <input type="text" th:field="*{testDescription}" class="form-control"
