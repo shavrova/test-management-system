@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,9 +29,9 @@ public class Test extends BaseEntity implements Comparable<Test>{
     @Column(name = "test_description")
     private String testDescription;
 
-//    @Temporal(TemporalType.DATE)
-//    @Column(name = "create_date")
-//    private Date createDate;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "create_date")
+    private Date createDate;
 
     @OneToMany(
             mappedBy = "test",
@@ -39,6 +40,10 @@ public class Test extends BaseEntity implements Comparable<Test>{
     )
     private List<TestStep> steps = new ArrayList<>();
 
+    @PrePersist
+    protected void onCreate() {
+        createDate = new Date();
+    }
     public Test(String testName, String testDescription) {
         this.testName = testName;
         this.testDescription = testDescription;
