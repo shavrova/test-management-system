@@ -19,7 +19,7 @@ public class StepServiceImpl implements StepService {
 
     @Override
     public Set<Step> findAll() {
-        return new HashSet<>(stepRepository.findAll());
+        return new TreeSet<>(stepRepository.findAll());
     }
 
     @Override

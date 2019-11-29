@@ -23,7 +23,7 @@ import java.util.Objects;
 @Cache(
         usage = CacheConcurrencyStrategy.READ_WRITE
 )
-public class Step extends BaseEntity{
+public class Step extends BaseEntity implements Comparable<Step>{
 
     @Column(name = "step_description")
     private String stepDescription;
@@ -45,4 +45,8 @@ public class Step extends BaseEntity{
         return Objects.hash(this.stepDescription)+56;
     }
 
+    @Override
+    public int compareTo(Step step) {
+        return this.getId().compareTo(step.getId());
+    }
 }

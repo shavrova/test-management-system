@@ -18,7 +18,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "tests")
-public class Test extends BaseEntity {
+public class Test extends BaseEntity implements Comparable<Test>{
 
     @NotNull
     @Size(min = 2, max = 100)
@@ -27,6 +27,10 @@ public class Test extends BaseEntity {
 
     @Column(name = "test_description")
     private String testDescription;
+
+//    @Temporal(TemporalType.DATE)
+//    @Column(name = "create_date")
+//    private Date createDate;
 
     @OneToMany(
             mappedBy = "test",
@@ -44,6 +48,7 @@ public class Test extends BaseEntity {
         TestStep testStep = new TestStep(this, step);
         testStep.setStepOrder(steps.size() + 1);
         steps.add(testStep);
+
     }
 
     public boolean containsStep(Step step) {
@@ -78,6 +83,10 @@ public class Test extends BaseEntity {
         return Objects.hash(this.testName) + 45;
     }
 
+    @Override
+    public int compareTo(Test test) {
+        return this.getId().compareTo(test.getId());
+    }
 }
 
 

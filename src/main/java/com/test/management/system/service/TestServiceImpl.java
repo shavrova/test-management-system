@@ -7,10 +7,7 @@ import com.test.management.system.exception.ItemNotFoundException;
 import com.test.management.system.repository.TestRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,7 +37,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Set<Test> findAll() {
-        return new HashSet<>(testRepository.findAll());
+        return new TreeSet<>(testRepository.findAll());
     }
 
     @Override
