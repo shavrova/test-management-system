@@ -26,6 +26,7 @@
         <tr>
             <th>Step ID</th>
             <th>Step Name</th>
+            <th>Delete Step</th>
         </thead>
 
         <tbody>
@@ -52,8 +53,7 @@
                     <i class="fas fa-file-alt"></i>
                 </td>
                 <td>
-                    <input type="text" th:field="*{stepDescription}" class="form-control" placeholder="Step Description"
-                           name="stepDescription" required>
+                    <input type="text" th:field="*{stepDescription}" class="form-control" placeholder="Step Description" required>
                 </td>
                 <td>
                     <button type="submit" class="btn btn-success" onclick="submitOnEnter()" style="display: none;">

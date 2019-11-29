@@ -44,7 +44,6 @@ public class TestUiController {
         return "redirect:/tests";
     }
 
-
     @PostMapping("/save")
     public String saveTest(
             @ModelAttribute @Valid Test test,

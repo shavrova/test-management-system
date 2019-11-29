@@ -32,11 +32,10 @@ public class StepUiController {
     }
 
     @PostMapping("/saveStep")
-    public String saveStep(@ModelAttribute("stepDescription") String stepDescription, BindingResult bindingResult) {
+    public String saveStep(@ModelAttribute Step step, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "steps-list";
         } else {
-            Step step = new Step(stepDescription);
             stepService.save(step);
         }
         return "redirect:/showAllSteps";
