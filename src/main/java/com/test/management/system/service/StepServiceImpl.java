@@ -5,7 +5,10 @@ import com.test.management.system.exception.ItemNotFoundException;
 import com.test.management.system.repository.StepRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,9 +28,7 @@ public class StepServiceImpl implements StepService {
     @Override
     public Step findById(Long stepId) {
         Optional<Step> res = stepRepository.findById(stepId);
-
         Step step;
-
         if (res.isPresent()) {
             step = res.get();
         } else {

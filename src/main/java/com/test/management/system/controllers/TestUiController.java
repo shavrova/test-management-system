@@ -1,4 +1,4 @@
-package com.test.management.system.ui;
+package com.test.management.system.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,16 +31,16 @@ public class TestUiController {
 
     @GetMapping("/tests")
     public String getTests(Model model) {
-        Set<Test> allTests = testService.findAll();
-        model.addAttribute("tests", allTests);
-        Test test = new Test();
-        model.addAttribute("test", test);
+            Set<Test> allTests = testService.findAll();
+            model.addAttribute("tests", allTests);
+            Test test = new Test();
+            model.addAttribute("test", test);
         return "tests-list";
     }
 
     @PostMapping("/addTest")
-    public String addTest(@ModelAttribute Test test) {
-        testService.save(test);
+    public String addTest(@ModelAttribute Test test, BindingResult bindingResult) {
+          testService.save(test);
         return "redirect:/tests";
     }
 
@@ -49,19 +49,23 @@ public class TestUiController {
             @ModelAttribute @Valid Test test,
             BindingResult bindingResult,
             @RequestParam(required = false) Set<String> description) {
-
-        description
-                .stream()
-                .forEach(s -> {
-                    if (stepService.findByDescription(s) != null) {
-                        test.addStep(stepService.findByDescription(s));
-                    } else {
-                        Step step = new Step(s);
-                        stepService.save(step);
-                        test.addStep(step);
-                    }
-                });
-        testService.save(test);
+        if(bindingResult.hasErrors()){
+            return "test-form";
+        }
+        else {
+            description
+                    .stream()
+                    .forEach(s -> {
+                        if (stepService.findByDescription(s) != null) {
+                            test.addStep(stepService.findByDescription(s));
+                        } else {
+                            Step step = new Step(s);
+                            stepService.save(step);
+                            test.addStep(step);
+                        }
+                    });
+            testService.save(test);
+        }
         return "redirect:/tests";
     }
 
@@ -95,4 +99,9 @@ public class TestUiController {
         }
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
+
+//    @ExceptionHandler({NotAllowedException.class})
+//    public ModelAndView getSuperheroesUnavailable(NotAllowedException ex) {
+//        return new ModelAndView("tests-list", "error", ex.getMessage());
+//    }
 }

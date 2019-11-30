@@ -8,25 +8,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class TestRestExceptionHandler {
 
-	@ExceptionHandler
-	public ResponseEntity<ErrorResponse> handleException(ItemNotFoundException exc) {
-		ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage());
-		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-	}
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(ItemNotFoundException exc) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
 
-	@ExceptionHandler
-	public ResponseEntity<ErrorResponse> handleException(Exception exc) {
-		ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
-		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-	}
-
-	@ExceptionHandler
-	public ResponseEntity<ErrorResponse> handleException(NotAllowedException exc) {
-		ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), exc.getMessage());
-		return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-	}
-
-
+//    @ExceptionHandler
+//    public ResponseEntity<ErrorResponse> handleException(Exception exc) {
+//        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
+//        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+//    }
+//
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(NotAllowedException exc) {
+        ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), exc.getMessage()+"not allowed!");
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 }
 
 

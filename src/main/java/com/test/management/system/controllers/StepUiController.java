@@ -1,4 +1,4 @@
-package com.test.management.system.ui;
+package com.test.management.system.controllers;
 
 import com.test.management.system.entity.Step;
 import com.test.management.system.service.StepService;
@@ -33,13 +33,8 @@ public class StepUiController {
 
     @PostMapping("/saveStep")
     public String saveStep(@ModelAttribute Step step, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "steps-list";
-        } else {
-            stepService.save(step);
-        }
+        stepService.save(step);
         return "redirect:/showAllSteps";
     }
-
 
 }

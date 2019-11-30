@@ -7,7 +7,10 @@ import com.test.management.system.exception.ItemNotFoundException;
 import com.test.management.system.repository.TestRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,9 +46,7 @@ public class TestServiceImpl implements TestService {
     @Override
     public Test findById(Long testId) {
         Optional<Test> res = testRepository.findById(testId);
-
         Test test;
-
         if (res.isPresent()) {
             test = res.get();
         } else {
