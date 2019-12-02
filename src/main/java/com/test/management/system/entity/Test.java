@@ -33,6 +33,11 @@ public class Test extends BaseEntity implements Comparable<Test>{
     @Column(name = "create_date")
     private Date createDate;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+
     @OneToMany(
             mappedBy = "test",
             cascade = CascadeType.ALL,
@@ -44,9 +49,11 @@ public class Test extends BaseEntity implements Comparable<Test>{
     protected void onCreate() {
         createDate = new Date();
     }
-    public Test(String testName, String testDescription) {
+
+    public Test(String testName, String testDescription, Category category) {
         this.testName = testName;
         this.testDescription = testDescription;
+        this.category = category;
     }
 
     public void addStep(Step step) {

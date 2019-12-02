@@ -23,10 +23,15 @@
        class="btn btn-primary btn-sm mb-3">
         All Steps
     </a>
+    <a th:href="@{/showAllCat}"
+       class="btn btn-primary btn-sm mb-3">
+        All Categories
+    </a>
     <table class="table table-striped table-dark">
         <thead class="thead-dark">
         <tr>
             <th>Test ID</th>
+            <th>Category</th>
             <th>Test Name</th>
             <th>Test Description</th>
             <th>Created</th>
@@ -38,6 +43,7 @@
         <th:block th:each="tempTest : ${tests}">
             <tr>
                 <td th:text="${tempTest.id}"/>
+                <td th:text="${tempTest.category.categoryName}"/>
                 <td th:text="${tempTest.testName}"/>
                 <td th:text="${tempTest.testDescription}"/>
                 <td th:text="${tempTest.createDate}"/>
@@ -75,6 +81,12 @@
                 <td>
                     <input type="hidden" th:field="*{id}"/>
                     <i class="fas fa-file-alt"></i>
+                </td>
+                <td>
+                    <select th:field="*{category}" class="form-control">
+                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.categoryName}">
+                        </option>
+                    </select>
                 </td>
                 <td>
                     <input type="text" th:field="*{testName}" class="form-control" placeholder="Test Name" required>

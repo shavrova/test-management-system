@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
+import com.test.management.system.service.CategoryService;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,16 @@ public class TestUiController {
     @Autowired
     StepService stepService;
 
+    @Autowired
+    CategoryService categoryService;
+
     @GetMapping("/tests")
     public String getTests(Model model) {
             Set<Test> allTests = testService.findAll();
             model.addAttribute("tests", allTests);
             Test test = new Test();
             model.addAttribute("test", test);
+            model.addAttribute("categories", categoryService.findAll());
         return "tests-list";
     }
 
@@ -49,10 +54,8 @@ public class TestUiController {
             @ModelAttribute @Valid Test test,
             BindingResult bindingResult,
             @RequestParam(required = false) Set<String> description) {
-        if(bindingResult.hasErrors()){
-            return "test-form";
-        }
-        else {
+
+        if(description != null) {
             description
                     .stream()
                     .forEach(s -> {
@@ -64,8 +67,8 @@ public class TestUiController {
                             test.addStep(step);
                         }
                     });
-            testService.save(test);
         }
+            testService.save(test);
         return "redirect:/tests";
     }
 
@@ -76,6 +79,8 @@ public class TestUiController {
         model.addAttribute("test", test);
         Set<Step> allSteps = stepService.findAll();
         model.addAttribute("allSteps", allSteps);
+        model.addAttribute("categories", categoryService.findAll());
+
         return "test-form";
     }
 

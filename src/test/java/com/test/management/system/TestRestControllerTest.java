@@ -1,5 +1,6 @@
 package com.test.management.system;
 
+import com.test.management.system.entity.Category;
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
 import com.test.management.system.rest.TestRestController;
@@ -37,7 +38,8 @@ public class TestRestControllerTest {
 
     @BeforeAll
     public static void setup() {
-        test = new Test("My Test name", "My Test Description");
+
+        test = new Test("My Test name", "My Test Description", new Category());
         step = new Step("My step description");
         test.setId(1L);
     }
