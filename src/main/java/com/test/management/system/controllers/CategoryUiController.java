@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
+import java.util.SortedSet;
 
 @Controller
 @RequestMapping(path = "/")
@@ -24,7 +25,7 @@ public class CategoryUiController {
 
     @GetMapping("/showAllCat")
     public String showAllCategories(Model model) {
-        Set<Category> all = categoryService.findAll();
+        SortedSet<Category> all = categoryService.findAll();
         model.addAttribute("allCategories", all);
         Category category = new Category();
         model.addAttribute("category", category);

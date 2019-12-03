@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -22,7 +23,7 @@ public class TestRestController {
     }
 
     @GetMapping("/tests")
-    public Set<Test> getTests() {
+    public SortedSet<Test> getTests() {
         return testService.findAll();
     }
 

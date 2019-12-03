@@ -9,10 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -20,7 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "tests")
-public class Test extends BaseEntity implements Comparable<Test>{
+public class Test extends BaseEntity implements Comparable<Test> {
 
     @NotNull
     @Size(min = 2, max = 100)
@@ -63,7 +60,7 @@ public class Test extends BaseEntity implements Comparable<Test>{
         TestStep testStep = new TestStep(this, step);
         testStep.setStepOrder(steps.size() + 1);
         steps.add(testStep);
-
+        steps.sort(Comparator.comparing(TestStep::getStepOrder));
     }
 
     public boolean containsStep(Step step) {

@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,8 +51,7 @@ public class TestRestControllerTest {
     @org.junit.jupiter.api.Test
     public void getAllTest() throws Exception {
         Set<Test> tests = Stream.of(test).collect(Collectors.toSet());
-
-        given(testService.findAll()).willReturn(tests);
+        given(testService.findAll()).willReturn(new TreeSet<>(tests));
         mvc.perform(get("/api/tests")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

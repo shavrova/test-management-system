@@ -7,6 +7,7 @@ import com.test.management.system.service.TestService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
+import java.util.SortedSet;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -21,7 +22,7 @@ public class StepsRestController {
     }
 
     @GetMapping("/steps")
-    public Set<Step> getSteps() {
+    public SortedSet<Step> getSteps() {
         return stepService.findAll();
     }
 

@@ -1,10 +1,10 @@
 package com.test.management.system.service;
 
-import java.util.Set;
+import java.util.SortedSet;
 
 public interface CrudService<T, ID> {
 
-    Set<T> findAll();
+    SortedSet<T> findAll();
 
     T findById(ID id);
 

@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
+import java.util.SortedSet;
 
 @Controller
 @RequestMapping(path = "/")
@@ -24,7 +25,7 @@ public class StepUiController {
 
     @GetMapping("/showAllSteps")
     public String showAllSteps(Model model) {
-        Set<Step> allSteps = stepService.findAll();
+        SortedSet<Step> allSteps = stepService.findAll();
         model.addAttribute("allSteps", allSteps);
         Step step = new Step();
         model.addAttribute("step", step);

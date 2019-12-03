@@ -16,8 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -35,17 +34,17 @@ public class TestUiController {
 
     @GetMapping("/tests")
     public String getTests(Model model) {
-            Set<Test> allTests = testService.findAll();
-            model.addAttribute("tests", allTests);
-            Test test = new Test();
-            model.addAttribute("test", test);
-            model.addAttribute("categories", categoryService.findAll());
+        SortedSet<Test> allTests = testService.findAll();
+        model.addAttribute("tests", allTests);
+        Test test = new Test();
+        model.addAttribute("test", test);
+        model.addAttribute("categories", categoryService.findAll());
         return "tests-list";
     }
 
     @PostMapping("/addTest")
     public String addTest(@ModelAttribute Test test, BindingResult bindingResult) {
-          testService.save(test);
+        testService.save(test);
         return "redirect:/tests";
     }
 
@@ -54,7 +53,7 @@ public class TestUiController {
             @ModelAttribute @Valid Test test,
             BindingResult bindingResult,
             @RequestParam(required = false) Set<String> description) {
-        if(description != null) {
+        if (description != null) {
             description
                     .stream()
                     .forEach(s -> {
@@ -69,7 +68,7 @@ public class TestUiController {
         }
 
         System.out.println("Date in /save : " + test.getCreateDate());
-            testService.save(test);
+        testService.save(test);
         return "redirect:/tests";
     }
 
@@ -78,7 +77,7 @@ public class TestUiController {
     public String showFormForUpdate(@RequestParam("testId") Long id, Model model) {
         Test test = testService.findById(id);
         model.addAttribute("test", test);
-        Set<Step> allSteps = stepService.findAll();
+        SortedSet<Step> allSteps = stepService.findAll();
         model.addAttribute("allSteps", allSteps);
         model.addAttribute("categories", categoryService.findAll());
         return "test-form";
@@ -104,5 +103,4 @@ public class TestUiController {
         }
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
-
 }

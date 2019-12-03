@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 @Service
@@ -19,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Set<Category> findAll() {
+    public SortedSet<Category> findAll() {
         return new TreeSet<>(categoryRepository.findAll());
     }
 

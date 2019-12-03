@@ -5,10 +5,7 @@ import com.test.management.system.exception.ItemNotFoundException;
 import com.test.management.system.repository.StepRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +18,7 @@ public class StepServiceImpl implements StepService {
     }
 
     @Override
-    public Set<Step> findAll() {
+    public SortedSet<Step> findAll() {
         return new TreeSet<>(stepRepository.findAll());
     }
 

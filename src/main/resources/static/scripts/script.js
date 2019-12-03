@@ -35,7 +35,7 @@ let addRow = function () {
 
 };
 
-let submitOnEnter = function() {
+let submitOnEnter = function(){
     $("form input").keypress(function (e) {
         if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
             $('button[type=submit] .default').click();
@@ -46,5 +46,14 @@ let submitOnEnter = function() {
     });
 };
 
-
-
+let deleteStep = function(testId, stepId){
+        $.ajax({
+            url: "http://localhost:8080/api/tests/"+testId+"/steps/"+stepId,
+            type: "DELETE",
+            success: function(response)
+            {
+                alert(response);
+                location.reload();
+            }
+        });
+    };
