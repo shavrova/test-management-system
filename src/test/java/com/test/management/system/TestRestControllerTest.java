@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

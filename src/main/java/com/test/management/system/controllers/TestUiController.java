@@ -54,7 +54,6 @@ public class TestUiController {
             @ModelAttribute @Valid Test test,
             BindingResult bindingResult,
             @RequestParam(required = false) Set<String> description) {
-
         if(description != null) {
             description
                     .stream()
@@ -68,6 +67,8 @@ public class TestUiController {
                         }
                     });
         }
+
+        System.out.println("Date in /save : " + test.getCreateDate());
             testService.save(test);
         return "redirect:/tests";
     }
@@ -80,7 +81,6 @@ public class TestUiController {
         Set<Step> allSteps = stepService.findAll();
         model.addAttribute("allSteps", allSteps);
         model.addAttribute("categories", categoryService.findAll());
-
         return "test-form";
     }
 
@@ -105,8 +105,4 @@ public class TestUiController {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
-//    @ExceptionHandler({NotAllowedException.class})
-//    public ModelAndView getSuperheroesUnavailable(NotAllowedException ex) {
-//        return new ModelAndView("tests-list", "error", ex.getMessage());
-//    }
 }

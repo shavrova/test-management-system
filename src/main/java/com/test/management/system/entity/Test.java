@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ public class Test extends BaseEntity implements Comparable<Test>{
     @Column(name = "test_description")
     private String testDescription;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     @Column(name = "create_date")
     private Date createDate;
@@ -49,6 +51,7 @@ public class Test extends BaseEntity implements Comparable<Test>{
     protected void onCreate() {
         createDate = new Date();
     }
+
 
     public Test(String testName, String testDescription, Category category) {
         this.testName = testName;
