@@ -66,8 +66,6 @@ public class TestUiController {
                         }
                     });
         }
-
-        System.out.println("Date in /save : " + test.getCreateDate());
         testService.save(test);
         return "redirect:/tests";
     }

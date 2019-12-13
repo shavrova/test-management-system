@@ -32,10 +32,14 @@ public class TestStep implements Comparable<TestStep> {
     @Column(name = "step_order")
     private Integer stepOrder;
 
+    @Column(name="step_usecase")
+    private String stepUsecase;
+
     public TestStep(Test test, Step step) {
         this.test = test;
         this.step = step;
         this.id = new TestStepId(test.getId(), step.getId());
+        this.stepUsecase = null;
     }
 
     @Override

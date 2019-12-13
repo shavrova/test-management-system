@@ -1,21 +1,39 @@
 package com.test.management.system.controllers;
 
+import com.test.management.system.FileService.FileService;
+import com.test.management.system.wrappers.TestWrapper;
 import com.test.management.system.entity.Category;
+import com.test.management.system.entity.Test;
 import com.test.management.system.service.CategoryService;
+import com.test.management.system.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
-import java.util.SortedSet;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/")
 public class CategoryUiController {
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    TestService testService;
+
+    @Autowired
+    FileService fileService;
 
     @PostMapping("/deleteCat")
     public String deleteCategory(@RequestParam("categoryId") Long id) {
@@ -37,4 +55,29 @@ public class CategoryUiController {
         categoryService.save(category);
         return "redirect:/showAllCat";
     }
+
+    @PostMapping("/generateFeatureFile")
+    public String generate(@RequestParam("categoryId") Long categoryId, Model model) {
+        Category category = categoryService.findById(categoryId);
+        Set<Test> allTests = testService.findAll();
+        List<Test> result = allTests.stream().filter(s -> s.getCategory().equals(category) && !s.getSteps().isEmpty()).collect(Collectors.toList());
+        model.addAttribute("wrapper", new TestWrapper(result));
+        model.addAttribute("categoryName", category.getCategoryName());
+        return "processing.html";
+    }
+
+    @GetMapping("/downloadFile")
+    public ResponseEntity<InputStreamResource> createFile(
+            @ModelAttribute("wrapper") TestWrapper testWrapper,
+            @RequestParam("categoryName")String categoryName)
+            throws IOException {
+        File file = fileService.createFeatureFile(testWrapper);
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.setContentType(MediaType.TEXT_PLAIN);
+        respHeaders.setContentDispositionFormData("attachment", categoryName + ".feature");
+        InputStreamResource isr = new InputStreamResource(new FileInputStream(file));
+        return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
+    }
+
+
 }
