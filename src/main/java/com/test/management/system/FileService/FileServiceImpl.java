@@ -26,10 +26,14 @@ public class FileServiceImpl implements FileService {
     }
 
 
-    private byte[] writeBytes(TestWrapper testWrapper) {
-        List<Test> tests = testWrapper.getList();
-        String featureName = "Performance";
+    private byte[] writeBytes(TestWrapper wrapper) {
         String fileContent = "";
+        List<Test> tests = wrapper.getList();
+        String annotations = wrapper.getAnnotations();
+        if(annotations != null && !annotations.isEmpty()) {
+            fileContent +=annotations+"\n";
+        }
+        String featureName = wrapper.getFeatureName();
         fileContent += "Feature: " + featureName;
         fileContent += "\n" + "\n";
         for (Test t : tests) {

@@ -17,12 +17,12 @@ color:white;
 text-align: center;
 }
 
-.feature{
-font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-}
-
 input[readonly]{
-  background-color:transparent;
   border: 0;
   font-size: 1em;
+  font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
+
+select{
+  font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 }

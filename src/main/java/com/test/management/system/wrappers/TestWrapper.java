@@ -12,19 +12,6 @@ import java.util.List;
 @Setter
 public class TestWrapper {
     private List<Test> list;
-
-//    public List<Test> getList() {
-//        if (this.list == null) {
-//            this.list = new ArrayList<>();
-//        }
-//        return list;
-//    }
-
-//    public void setList(List<Test> list) {
-//        this.list = list;
-//    }
-//
-//    public Wrapper(List<Test> list) {
-//        this.list = list;
-//    }
+    private String featureName;
+    private String annotations;
 }

@@ -61,20 +61,21 @@ public class CategoryUiController {
         Category category = categoryService.findById(categoryId);
         Set<Test> allTests = testService.findAll();
         List<Test> result = allTests.stream().filter(s -> s.getCategory().equals(category) && !s.getSteps().isEmpty()).collect(Collectors.toList());
-        model.addAttribute("wrapper", new TestWrapper(result));
-        model.addAttribute("categoryName", category.getCategoryName());
-        return "processing.html";
+        TestWrapper wrapper = new TestWrapper();
+        wrapper.setList(result);
+        wrapper.setFeatureName(category.getCategoryName());
+        model.addAttribute("wrapper", wrapper);
+        return "download.html";
     }
 
     @GetMapping("/downloadFile")
     public ResponseEntity<InputStreamResource> createFile(
-            @ModelAttribute("wrapper") TestWrapper testWrapper,
-            @RequestParam("categoryName")String categoryName)
+            @ModelAttribute("wrapper") TestWrapper testWrapper)
             throws IOException {
         File file = fileService.createFeatureFile(testWrapper);
         HttpHeaders respHeaders = new HttpHeaders();
         respHeaders.setContentType(MediaType.TEXT_PLAIN);
-        respHeaders.setContentDispositionFormData("attachment", categoryName + ".feature");
+        respHeaders.setContentDispositionFormData("attachment", testWrapper.getFeatureName() + ".feature");
         InputStreamResource isr = new InputStreamResource(new FileInputStream(file));
         return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
     }
