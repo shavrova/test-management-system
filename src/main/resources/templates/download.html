@@ -18,126 +18,72 @@
     <title>Create Files</title>
 </head>
 <body>
-
 <div class="container float-left w-50 p-3" style="background-color: #e8ecef">
     <form action="#" th:action="@{/downloadFile}" method="GET" th:object="${wrapper}">
         <div th:if="${#lists.isEmpty(wrapper.list)}">
-            <div class="alert alert-danger" role="alert">No steps to show in selected category. Please add steps description or select another category.</div>
+            <div class="alert alert-danger" role="alert">No steps to show in selected category. Please add steps
+                description or select another category.
+            </div>
         </div>
         <!-- ELSE -->
         <div th:unless="${#lists.isEmpty(wrapper.list)}">
-
-        <!--    ANNOTATIONS ROW-->
-        <div class="row">
-            <div class="col-md-12">
-                <input type="text" placeholder="e.g. @UI @API @Login" th:field="*{annotations}" class="form-control">
+            <!--    ANNOTATIONS ROW-->
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="text" placeholder="e.g. @UI @API @Login" th:field="*{annotations}"
+                           class="form-control">
+                </div>
             </div>
-        </div>
-        <!--    FEATURE NAME ROW -->
-        <div class="row">
-            <div class="col-md-2">
-                <code>Feature:</code>
-            </div>
-            <div class="col-md-10">
-                <input type="text" th:text="${featureName}" class="form-control" th:field="*{featureName}" readonly>
-            </div>
-        </div>
-
-        <th:block th:each="test, status : ${wrapper.list}">
-            <!--        SCENARIO ROW-->
+            <!--    FEATURE NAME ROW -->
             <div class="row">
                 <div class="col-md-2">
-                    <code>Scenario:</code>
+                    <code>Feature:</code>
                 </div>
                 <div class="col-md-10">
-                    <input th:field="*{list[__${status.index}__].testName}" class="form-control" readonly/>
+                    <input type="text" th:text="${featureName}" class="form-control" th:field="*{featureName}" readonly>
                 </div>
             </div>
-            <!--    STEPS ROW-->
-            <th:block th:each="step, stat : *{list[__${status.index}__].steps}">
+
+            <th:block th:each="test, status : ${wrapper.list}">
+                <!--        SCENARIO ROW-->
                 <div class="row">
                     <div class="col-md-2">
-                        <select class="custom-select"
-                                th:field="*{list[__${status.index}__].steps[__${stat.index}__].stepUsecase}">
-                            <option th:value="Given" th:text="Given"/>
-                            <option th:value="When" th:text="When" selected/>
-                            <option th:value="'And'" th:text="'And'"/>
-                            <option th:value="Then" th:text="Then"/>
-                        </select>
+                        <code>Scenario:</code>
                     </div>
                     <div class="col-md-10">
-                        <input type="hidden"
-                               th:field="*{list[__${status.index}__].steps[__${stat.index}__].id.stepId}"/>
-                        <input type="text"
-                               th:field="*{list[__${status.index}__].steps[__${stat.index}__].step.stepDescription}"
-                               class="form-control" readonly/>
+                        <input th:field="*{list[__${status.index}__].testName}" class="form-control" readonly/>
                     </div>
                 </div>
+                <!--    STEPS ROW-->
+                <th:block th:each="step, stat : *{list[__${status.index}__].steps}">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <select class="custom-select"
+                                    th:field="*{list[__${status.index}__].steps[__${stat.index}__].stepUsecase}">
+                                <option th:value="Given" th:text="Given"/>
+                                <option th:value="When" th:text="When" selected/>
+                                <option th:value="'And'" th:text="'And'"/>
+                                <option th:value="Then" th:text="Then"/>
+                            </select>
+                        </div>
+                        <div class="col-md-10">
+                            <input type="hidden"
+                                   th:field="*{list[__${status.index}__].steps[__${stat.index}__].id.stepId}"/>
+                            <input type="text"
+                                   th:field="*{list[__${status.index}__].steps[__${stat.index}__].step.stepDescription}"
+                                   class="form-control" readonly/>
+                        </div>
+                    </div>
+                </th:block>
             </th:block>
-        </th:block>
-        <div class="row text-right p-2 bd-highlight">
-            <div class="col">
-                <button type="submit" class="btn btn-success">Generate .feature file</button>
+            <div class="row text-right p-2 bd-highlight">
+                <div class="col">
+                    <button type="submit" class="btn btn-success">Generate .feature file</button>
+                </div>
             </div>
-        </div>
-        <a th:href="@{/tests}">Go Back</a>
+            <a th:href="@{/tests}">Go Back</a>
         </div>
     </form>
 </div>
-
-
-<!--<th:block class="container">-->
-<!--    <div class="d-flex flex-md-column bd-highlight mb-3 w-50">-->
-<!--        <form action="#" th:action="@{/downloadFile}" method="GET" th:object="${wrapper}">-->
-<!--            &lt;!&ndash;            ANNOTATIONS&ndash;&gt;-->
-<!--            <div class="p-2">-->
-<!--                <div class="d-flex flex-fill bd-highlight mb-1">-->
-<!--                    <div class="p-2 bd-highlight">-->
-<!--                        <input type="text" placeholder="e.g. @UI @API @Login" th:field="*{annotations}"-->
-<!--                               class="form-control">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            &lt;!&ndash;            FEATURE NAME&ndash;&gt;-->
-<!--&lt;!&ndash;            <div class="p-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="d-flex flex-fill bd-highlight mb-1">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <div class="p-2 bd-highlight">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <code>Feature:</code>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <input type="text" th:text="${featureName}" class="form-control" th:field="*{featureName}"&ndash;&gt;-->
-<!--&lt;!&ndash;                               readonly>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--            <th:block th:each="test, status : ${wrapper.list}">-->
-<!--                            <code>Scenario:</code>-->
-<!--                            <input th:field="*{list[__${status.index}__].testName}" class="form-control" readonly/>-->
-<!--                    <th:block th:each="step, stat : *{list[__${status.index}__].steps}">-->
-<!--                                <select class="custom-select"-->
-<!--                                        th:field="*{list[__${status.index}__].steps[__${stat.index}__].stepUsecase}">-->
-<!--                                    <option th:value="Given" th:text="Given"/>-->
-<!--                                    <option th:value="When" th:text="When" selected/>-->
-<!--                                    <option th:value="'And'" th:text="'And'"/>-->
-<!--                                    <option th:value="Then" th:text="Then"/>-->
-<!--                                </select>-->
-<!--                                <input type="hidden"-->
-<!--                                       th:field="*{list[__${status.index}__].steps[__${stat.index}__].id.stepId}"/>-->
-<!--                                <input type="text"-->
-<!--                                       th:field="*{list[__${status.index}__].steps[__${stat.index}__].step.stepDescription}"-->
-<!--                                       class="form-control" readonly/>-->
-<!--                    </th:block>-->
-<!--            </th:block>-->
-
-<!--            <div class="row text-right p-2 bd-highlight">-->
-<!--                <div class="col">-->
-<!--                    <button type="submit" class="btn btn-success">Generate .feature file</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
-
-<!--    <br>-->
-<!--</th:block>-->
-
-
 </body>
 </html>
