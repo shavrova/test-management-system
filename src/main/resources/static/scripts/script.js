@@ -18,7 +18,7 @@ let addRow = function () {
                         $("#autocomplete-input"+rowIndex).autocomplete({
                             source : function(request, response) {
                                 $.ajax({
-                                    url : "http://localhost:8080/search",
+                                    url : "search",
                                     dataType : "json",
                                     data : {
                                         q : request.term
@@ -48,7 +48,7 @@ let submitOnEnter = function(){
 
 let deleteStep = function(testId, stepId){
         $.ajax({
-            url: "http://localhost:8080/api/tests/"+testId+"/steps/"+stepId,
+            url: "api/tests/"+testId+"/steps/"+stepId,
             type: "DELETE",
             success: function(response)
             {
