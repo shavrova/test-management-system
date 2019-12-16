@@ -1,6 +1,6 @@
-package com.test.management.system.FileService;
+package feature.generator.service;
 
-import com.test.management.system.wrappers.TestWrapper;
+import com.test.management.system.util.wrapper.TestWrapper;
 
 import java.io.File;
 

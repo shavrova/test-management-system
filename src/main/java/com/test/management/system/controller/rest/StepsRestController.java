@@ -1,12 +1,11 @@
-package com.test.management.system.rest;
+package com.test.management.system.controller.rest;
 
 import com.test.management.system.entity.Step;
-import com.test.management.system.exception.NotAllowedException;
+import com.test.management.system.util.exception.NotAllowedException;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 import java.util.SortedSet;
 
 @RestController

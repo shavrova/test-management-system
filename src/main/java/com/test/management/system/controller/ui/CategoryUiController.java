@@ -1,7 +1,7 @@
-package com.test.management.system.controllers;
+package com.test.management.system.controller.ui;
 
-import com.test.management.system.FileService.FileService;
-import com.test.management.system.wrappers.TestWrapper;
+import feature.generator.service.FileService;
+import com.test.management.system.util.wrapper.TestWrapper;
 import com.test.management.system.entity.Category;
 import com.test.management.system.entity.Test;
 import com.test.management.system.service.CategoryService;

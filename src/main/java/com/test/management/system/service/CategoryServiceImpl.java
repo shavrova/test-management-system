@@ -1,12 +1,11 @@
 package com.test.management.system.service;
 
 import com.test.management.system.entity.Category;
-import com.test.management.system.exception.ItemNotFoundException;
+import com.test.management.system.util.exception.ItemNotFoundException;
 import com.test.management.system.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 

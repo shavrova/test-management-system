@@ -1,4 +1,4 @@
-package com.test.management.system.controllers;
+package com.test.management.system.controller.ui;
 
 import com.test.management.system.entity.Step;
 import com.test.management.system.service.StepService;
@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 import java.util.SortedSet;
 
 @Controller

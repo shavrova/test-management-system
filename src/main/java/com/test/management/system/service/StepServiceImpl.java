@@ -1,7 +1,7 @@
 package com.test.management.system.service;
 
 import com.test.management.system.entity.Step;
-import com.test.management.system.exception.ItemNotFoundException;
+import com.test.management.system.util.exception.ItemNotFoundException;
 import com.test.management.system.repository.StepRepository;
 import org.springframework.stereotype.Service;
 

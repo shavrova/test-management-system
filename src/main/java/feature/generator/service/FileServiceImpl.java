@@ -1,8 +1,8 @@
-package com.test.management.system.FileService;
+package feature.generator.service;
 
 import com.test.management.system.entity.Test;
 import com.test.management.system.entity.TestStep;
-import com.test.management.system.wrappers.TestWrapper;
+import com.test.management.system.util.wrapper.TestWrapper;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

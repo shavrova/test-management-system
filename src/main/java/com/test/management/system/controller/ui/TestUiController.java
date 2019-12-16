@@ -1,4 +1,4 @@
-package com.test.management.system.controllers;
+package com.test.management.system.controller.ui;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

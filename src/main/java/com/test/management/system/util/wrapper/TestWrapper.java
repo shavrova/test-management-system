@@ -1,4 +1,4 @@
-package com.test.management.system.wrappers;
+package com.test.management.system.util.wrapper;
 
 import com.test.management.system.entity.Test;
 import lombok.*;

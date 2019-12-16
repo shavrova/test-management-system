@@ -3,7 +3,7 @@ package com.test.management.system;
 import com.test.management.system.entity.Category;
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
-import com.test.management.system.rest.TestRestController;
+import com.test.management.system.controller.rest.TestRestController;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,9 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Date;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

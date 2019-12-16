@@ -1,4 +1,4 @@
-package com.test.management.system.exception;
+package com.test.management.system.util.exception;
 
 public class NotAllowedException extends RuntimeException {
 

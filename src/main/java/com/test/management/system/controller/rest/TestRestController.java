@@ -1,4 +1,4 @@
-package com.test.management.system.rest;
+package com.test.management.system.controller.rest;
 
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
@@ -7,7 +7,6 @@ import com.test.management.system.service.TestService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 
 @RestController
