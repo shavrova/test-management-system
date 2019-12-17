@@ -6,5 +6,7 @@ import java.io.File;
 
 public interface FileService {
 
-    File createFeatureFile(TestWrapper testWrapper);
+    File createFeatureFile(TestWrapper wrapper);
+
+    File createJavaFile(TestWrapper wrapper);
 }

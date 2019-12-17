@@ -11,49 +11,30 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import static feature.generator.util.FeatureFileUtil.createTempFeatureFileFrom;
+import static feature.generator.util.JavaFileUtil.createTempJavaFileFrom;
+
 @Service
 public class FileServiceImpl implements FileService {
 
 
     @Override
-    public File createFeatureFile(TestWrapper testWrapper) {
+    public File createFeatureFile(TestWrapper wrapper) {
         try {
-            return createTempFileFrom(testWrapper);
+            return createTempFeatureFileFrom(wrapper);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-
-    private byte[] writeBytes(TestWrapper wrapper) {
-        String fileContent = "";
-        List<Test> tests = wrapper.getList();
-        String annotations = wrapper.getAnnotations();
-        if(annotations != null && !annotations.isEmpty()) {
-            fileContent +=annotations+"\n";
+    @Override
+    public File createJavaFile(TestWrapper wrapper) {
+        try {
+            return createTempJavaFileFrom(wrapper);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
         }
-        String featureName = wrapper.getFeatureName();
-        fileContent += "Feature: " + featureName;
-        fileContent += "\n" + "\n";
-        for (Test t : tests) {
-            fileContent += "  Scenario: " + t.getTestName() + "\n";
-            List<TestStep> steps = t.getSteps();
-            for (TestStep ts : steps) {
-                fileContent += "    " + ts.getStepUsecase() + " " + ts.getStep().getStepDescription() + "\n";
-            }
-            fileContent += "\n";
-        }
-        return fileContent.getBytes();
-    }
-
-
-    private File createTempFileFrom(TestWrapper testWrapper) throws IOException {
-        File f = File.createTempFile("fileName", ".txt");
-        f.deleteOnExit();
-        try (OutputStream out = new FileOutputStream(f)) {
-            out.write(writeBytes(testWrapper));
-        }
-        return f;
     }
 }

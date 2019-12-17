@@ -12,7 +12,6 @@
 </head>
 
 <title>Categories List</title>
-</head>
 
 <body>
 
@@ -47,8 +46,7 @@
                     <div class="col-small">
                         <form action="#" th:action="@{/generateFeatureFile}" method="POST">
                             <input type="hidden" name="categoryId" th:value="${tempCat.id}"/>
-                            <button type="submit" class="form-control">Generate Feature File
-                            </button>
+                            <button type="submit" class="form-control">Generate</button>
                         </form>
                     </div>
                 </td>

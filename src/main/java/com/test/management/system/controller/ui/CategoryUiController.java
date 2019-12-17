@@ -68,8 +68,8 @@ public class CategoryUiController {
         return "download.html";
     }
 
-    @GetMapping("/downloadFile")
-    public ResponseEntity<InputStreamResource> createFile(
+    @GetMapping(value = "/downloadFile", params = "action=feature")
+    public ResponseEntity<InputStreamResource> downloadFeatureFile(
             @ModelAttribute("wrapper") TestWrapper testWrapper)
             throws IOException {
         File file = fileService.createFeatureFile(testWrapper);
@@ -80,5 +80,16 @@ public class CategoryUiController {
         return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/downloadFile", params = "action=java")
+    public ResponseEntity<InputStreamResource> downloadJavaFile(
+            @ModelAttribute("wrapper") TestWrapper testWrapper)
+            throws IOException {
+        File file = fileService.createJavaFile(testWrapper);
+        HttpHeaders respHeaders = new HttpHeaders();
+        respHeaders.setContentType(MediaType.TEXT_PLAIN);
+        respHeaders.setContentDispositionFormData("attachment", testWrapper.getFeatureName()+"Steps"+ ".java");
+        InputStreamResource isr = new InputStreamResource(new FileInputStream(file));
+        return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
+    }
 
 }

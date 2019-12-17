@@ -77,7 +77,10 @@
             </th:block>
             <div class="row text-right p-2 bd-highlight">
                 <div class="col">
-                    <button type="submit" class="btn btn-success">Generate .feature file</button>
+                    <button type="submit" class="btn btn-success" value="feature" name="action">Generate .feature file</button>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-success" value="java" name="action">Generate .java file</button>
                 </div>
             </div>
             <a th:href="@{/showAllCat}">Go Back</a>
