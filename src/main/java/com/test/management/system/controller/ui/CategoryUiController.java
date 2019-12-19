@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -70,7 +71,8 @@ public class CategoryUiController {
 
     @GetMapping(value = "/downloadFile", params = "action=feature")
     public ResponseEntity<InputStreamResource> downloadFeatureFile(
-            @ModelAttribute("wrapper") TestWrapper testWrapper)
+            @ModelAttribute("wrapper") @Valid TestWrapper testWrapper,
+            BindingResult result)
             throws IOException {
         File file = fileService.createFeatureFile(testWrapper);
         HttpHeaders respHeaders = new HttpHeaders();
