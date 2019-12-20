@@ -7,13 +7,24 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                <a th:href="@{/tests}" class="nav-item nav-link">All Tests</a>
-                <a th:href="@{/showAllSteps}" class="nav-item nav-link">Steps</a>
-                <a th:href="@{/showAllCat}" class="nav-item nav-link">Categories</a>
+                <li class="nav-item"><a th:href="@{/tests}" class="nav-item nav-link">All Tests</a></li>
+                <li class="nav-item"><a th:href="@{/showAllSteps}" class="nav-item nav-link">Steps</a></li>
+                <li class="nav-item"><a th:href="@{/showAllCat}" class="nav-item nav-link">Categories</a></li>
             </div>
             <div sec:authorize="isAuthenticated()" class="navbar-nav ml-auto">
-                <a th:href="@{/logout}" class="nav-item nav-link">Logout</a>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                    </div>
+                </div>
             </div>
+
             </ul>
         </div>
     </nav>
