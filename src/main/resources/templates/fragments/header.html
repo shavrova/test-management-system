@@ -1,19 +1,19 @@
 <header th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml"
         xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-fixed-top">
-        <a th:href="@{/}" class="navbar-brand">Home</a>
+        <a th:href="@{/}" class="navbar-brand">My Tests</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
+                <a th:href="@{/tests}" class="nav-item nav-link">All Tests</a>
                 <a th:href="@{/showAllSteps}" class="nav-item nav-link">Steps</a>
                 <a th:href="@{/showAllCat}" class="nav-item nav-link">Categories</a>
             </div>
             <div sec:authorize="isAuthenticated()" class="navbar-nav ml-auto">
                 <a th:href="@{/logout}" class="nav-item nav-link">Logout</a>
             </div>
-
             </ul>
         </div>
     </nav>

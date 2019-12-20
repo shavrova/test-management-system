@@ -7,6 +7,7 @@ import com.test.management.system.entity.Test;
 import com.test.management.system.service.CategoryService;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
+import com.test.management.system.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,18 +34,22 @@ public class TestUiController {
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/tests")
     public String getTests(Model model) {
         SortedSet<Test> allTests = testService.findAll();
         model.addAttribute("tests", allTests);
-        Test test = new Test();
-        model.addAttribute("test", test);
-        model.addAttribute("categories", categoryService.findAll());
+//        Test test = new Test();
+//        model.addAttribute("test", test);
+//        model.addAttribute("categories", categoryService.findAll());
         return "tests-list";
     }
 
     @PostMapping("/addTest")
-    public String addTest(@ModelAttribute Test test, BindingResult bindingResult) {
+    public String addTest(@ModelAttribute Test test, BindingResult bindingResult, Principal principal) {
+        test.setUser(userService.findByEmail(principal.getName()));
         testService.save(test);
         return "redirect:/tests";
     }
@@ -100,5 +106,15 @@ public class TestUiController {
         } catch (JsonProcessingException e) {
         }
         return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/myTests")
+    public String getCurrentUserTests(Principal principal, Model model) {
+        List<Test> myTests = testService.findAll().stream().filter(s->s.getUser().getEmail().equals(principal.getName())).collect(Collectors.toList());
+        model.addAttribute("tests", myTests);
+        Test test = new Test();
+        model.addAttribute("test", test);
+        model.addAttribute("categories", categoryService.findAll());
+        return "user";
     }
 }

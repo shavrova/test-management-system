@@ -1,19 +1,26 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js/}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+
     <script type="text/javascript" th:src="@{/scripts/script.js}"></script>
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
     <title>Test List</title>
 </head>
+
 <body>
+
 <div th:replace="fragments/header :: header"></div>
 <div class="container">
+
     <table class="table">
         <thead>
         <tr>
@@ -64,6 +71,32 @@
                 </td>
             </tr>
         </th:block>
+        <tr>
+            <form id="addTest" action="#" th:action="@{/addTest}" th:object="${test}" method="POST">
+                <td>
+                    <input type="hidden" th:field="*{id}"/>
+                    <i class="fas fa-file-alt"></i>
+                </td>
+                <td>
+                    <select th:field="*{category}" class="form-control">
+                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.categoryName}">
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" th:field="*{testName}" class="form-control" placeholder="Test Name" required>
+                </td>
+                <td>
+                    <input type="text" th:field="*{testDescription}" class="form-control"
+                           placeholder="Test Description">
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-success" onclick="submitOnEnter()" style="display: none;">
+                        Save
+                    </button>
+                </td>
+            </form>
+        </tr>
         </tbody>
     </table>
 </div>

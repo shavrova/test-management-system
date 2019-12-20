@@ -1,6 +1,7 @@
 package com.test.management.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.test.management.system.entity.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,6 +39,10 @@ public class Test extends BaseEntity implements Comparable<Test> {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(
             mappedBy = "test",
