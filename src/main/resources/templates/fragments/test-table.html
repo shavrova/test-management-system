@@ -1,0 +1,54 @@
+<div th:fragment="testsTable(wrapper)" xmlns:th="http://www.w3.org/1999/xhtml">
+<table class="table">
+    <thead>
+    <tr>
+        <th>Test ID</th>
+        <th>Category</th>
+        <th>Test Name</th>
+        <th>Test Description</th>
+        <th>Created</th>
+        <th>Steps</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <th:block th:each="tempTest : ${tests}">
+        <tr>
+            <td th:text="${tempTest.id}"/>
+            <td th:text="${tempTest.category.categoryName}"/>
+            <td th:text="${tempTest.testName}"/>
+            <td th:text="${tempTest.testDescription}"/>
+            <td th:text="${tempTest.createDate}"/>
+            <td>
+                <div th:each="tempSteps:${tempTest.steps}">
+                    <span th:text="${tempSteps.stepOrder}"></span>
+                    <span th:text="${tempSteps.step.stepDescription}"></span>
+                </div>
+            </td>
+            <td>
+                <div class="col-small">
+                    <form action="#" th:action="@{/showFormForUpdate}" method="POST">
+                        <input type="hidden" name="testId" th:value="${tempTest.id}"/>
+                        <button type="submit" class="btn btn-default">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </form>
+                </div>
+            </td>
+            <td>
+                <div class="col-small">
+                    <form action="#" th:action="@{/delete}" method="POST">
+                        <input type="hidden" name="testId" th:value="${tempTest.id}"/>
+                        <button type="submit" class="btn btn-default">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</div>

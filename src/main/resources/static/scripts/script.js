@@ -57,3 +57,9 @@ let deleteStep = function(testId, stepId){
             }
         });
     };
+
+
+$('#navbar a').click(function(e) {
+    $('#navbar a').removeClass('current_page_item');
+    $(this).addClass('current_page_item');
+});

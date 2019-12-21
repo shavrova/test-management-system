@@ -1,0 +1,85 @@
+<div th:fragment="testForm(test, cat)" xmlns:th="http://www.w3.org/1999/xhtml">
+    <form th:object="${test}" method="POST" th:action="${'/save'}">
+        <div>
+            <div class="row">
+                <div class="col justify-content-around">
+                    <input th:field="*{id}" type="hidden" class="form-control" id="id">
+
+                    <!--                            CATEGORY DROPDOWN-->
+
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="testDescription">Test Category</label>
+                            <select th:field="*{category}" class="form-control">
+                                <option th:each="cat : ${categories}" th:value="${cat.id}"
+                                        th:text="${cat.categoryName}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--                            TEST NAME-->
+
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="testName">Test Name</label>
+                            <input th:field="*{testName}" type="text" class="form-control" id="testName">
+                        </div>
+                    </div>
+                    <input th:field="*{createDate}" type="hidden">
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="testDescription">Test Description</label>
+                            <input th:field="*{testDescription}" type="text" class="form-control"
+                                   id="testDescription">
+                        </div>
+                    </div>
+                    <input th:field="*{user.id}" type="hidden">
+                    <input th:field="*{user.firstName}" type="hidden">
+                    <input th:field="*{user.lastName}" type="hidden">
+                    <input th:field="*{user.email}" type="hidden">
+                    <input th:field="*{user.password}" type="hidden">
+
+                    <div id="stepsList">
+                        <div class="row">
+                            <div class="col form-group d-none">Step ID</div>
+                            <div class="col form-group">Steps:</div>
+                        </div>
+                        <div class="row item" th:each="step, status : ${test.steps}">
+                            <div class="col form-group d-none">
+                                <input th:field="*{steps[__${status.index}__].id.stepId}" type="hidden">
+                            </div>
+                            <div class="col form-group d-none">
+                                <input th:field="*{steps[__${status.index}__].id.testId}" type="hidden">
+                            </div>
+                            <div class="col form-group d-none">
+                                <input th:field="*{steps[__${status.index}__].stepOrder}" type="hidden">
+                            </div>
+                            <div class="col form-group d-none">
+                                <input th:field="*{steps[__${status.index}__].step.id}" type="hidden">
+                            </div>
+                            <div class="col form-group d-flex flex-row" name="parent name">
+                                <input th:field="*{steps[__${status.index}__].step.stepDescription}" type="text"
+                                       class="form-control p-2">
+                                <button type="button" class="btn btn-default p-2"
+                                        th:onclick="'javascript:deleteStep(\'' + ${test.id} + '\',\'' + *{steps[__${status.index}__].id.stepId} + '\');'">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-start">
+                <div class="col">
+                    <button type="button" class="btn btn-primary" onclick="addRow()">Add New Step
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row text-right">
+            <div class="col">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

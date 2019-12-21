@@ -7,14 +7,11 @@ background: inherit;
 color: white;
 }
 
-input[name="testId"] {
-  background: inherit;
+i[name="userIcon"] {
+  color:white;
 }
-
-i{
-font-size:24px;
+#navbarDropdown{
 color:white;
-text-align: center;
 }
 
 input[readonly]{
@@ -26,4 +23,5 @@ input[readonly]{
 select{
   font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 }
+
 

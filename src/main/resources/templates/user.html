@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,63 +21,11 @@
 
 <div th:replace="fragments/header :: header"></div>
 <div class="container">
-
+    <!--    ADD TEST-->
+    <H3>Add new test quick:</H3>
     <table class="table">
-        <thead>
-        <tr>
-            <th>Test ID</th>
-            <th>Category</th>
-            <th>Test Name</th>
-            <th>Test Description</th>
-            <th>Created</th>
-            <th>Steps</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <th:block th:each="tempTest : ${tests}">
-            <tr>
-                <td th:text="${tempTest.id}"/>
-                <td th:text="${tempTest.category.categoryName}"/>
-                <td th:text="${tempTest.testName}"/>
-                <td th:text="${tempTest.testDescription}"/>
-                <td th:text="${tempTest.createDate}"/>
-                <td>
-                    <div th:each="tempSteps:${tempTest.steps}">
-                        <span th:text="${tempSteps.stepOrder}"></span>
-                        <span th:text="${tempSteps.step.stepDescription}"></span>
-                    </div>
-                </td>
-                <td>
-                    <div class="col-small">
-                        <form action="#" th:action="@{/showFormForUpdate}" method="POST">
-                            <input type="hidden" name="testId" th:value="${tempTest.id}"/>
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </form>
-                    </div>
-                </td>
-                <td>
-                    <div class="col-small">
-                        <form action="#" th:action="@{/delete}" method="POST">
-                            <input type="hidden" name="testId" th:value="${tempTest.id}"/>
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        </th:block>
         <tr>
             <form id="addTest" action="#" th:action="@{/addTest}" th:object="${test}" method="POST">
-                <td>
-                    <input type="hidden" th:field="*{id}"/>
-                    <i class="fas fa-file-alt"></i>
-                </td>
                 <td>
                     <select th:field="*{category}" class="form-control">
                         <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.categoryName}">
@@ -97,8 +46,10 @@
                 </td>
             </form>
         </tr>
-        </tbody>
     </table>
+    <br>
+    <div th:replace="fragments/test-table:: testsTable(wrapper)">
+    </div>
 </div>
 </body>
 </html>

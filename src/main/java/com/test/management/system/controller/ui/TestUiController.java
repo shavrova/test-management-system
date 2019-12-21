@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
+import com.test.management.system.entity.user.User;
 import com.test.management.system.service.CategoryService;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.*;
@@ -41,9 +43,6 @@ public class TestUiController {
     public String getTests(Model model) {
         SortedSet<Test> allTests = testService.findAll();
         model.addAttribute("tests", allTests);
-//        Test test = new Test();
-//        model.addAttribute("test", test);
-//        model.addAttribute("categories", categoryService.findAll());
         return "tests-list";
     }
 
@@ -51,8 +50,9 @@ public class TestUiController {
     public String addTest(@ModelAttribute Test test, BindingResult bindingResult, Principal principal) {
         test.setUser(userService.findByEmail(principal.getName()));
         testService.save(test);
-        return "redirect:/tests";
+        return "redirect:/user";
     }
+
 
     @PostMapping("/save")
     public String saveTest(
@@ -73,25 +73,26 @@ public class TestUiController {
                     });
         }
         testService.save(test);
-        return "redirect:/tests";
+        return "redirect:/myTests";
     }
 
 
     @PostMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("testId") Long id, Model model) {
+    public String showFormForUpdate(
+            @RequestParam("testId") Long id,
+            Model model) {
         Test test = testService.findById(id);
         model.addAttribute("test", test);
-        SortedSet<Step> allSteps = stepService.findAll();
-        model.addAttribute("allSteps", allSteps);
         model.addAttribute("categories", categoryService.findAll());
         return "test-form";
     }
 
 
     @PostMapping("/delete")
-    public String delete(@RequestParam("testId") Long id) {
+    public String delete(@RequestParam("testId") Long id, HttpServletRequest request) {
         testService.deleteById(id);
-        return "redirect:/tests";
+        String referer = request.getHeader("Referer");
+        return "redirect:"+ referer;
     }
 
     @GetMapping(value = "/search")
@@ -117,4 +118,15 @@ public class TestUiController {
         model.addAttribute("categories", categoryService.findAll());
         return "user";
     }
+
+    @GetMapping("/addNewTest")
+    public String addNewTest(Model model, Principal principal) {
+        Test test = new Test();
+        User user = userService.findByEmail(principal.getName());
+        test.setUser(user);
+        model.addAttribute("test", test);
+        model.addAttribute("categories", categoryService.findAll());
+        return "test-form";
+    }
+
 }
