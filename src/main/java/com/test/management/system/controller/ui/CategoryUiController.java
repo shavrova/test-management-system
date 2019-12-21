@@ -1,11 +1,11 @@
 package com.test.management.system.controller.ui;
 
-import feature.generator.service.FileService;
-import com.test.management.system.util.wrapper.TestWrapper;
 import com.test.management.system.entity.Category;
 import com.test.management.system.entity.Test;
 import com.test.management.system.service.CategoryService;
 import com.test.management.system.service.TestService;
+import com.test.management.system.util.wrapper.TestWrapper;
+import feature.generator.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,7 +44,7 @@ public class CategoryUiController {
 
     @GetMapping("/showAllCat")
     public String showAllCategories(Model model) {
-        SortedSet<Category> all = categoryService.findAll();
+        List<Category> all = categoryService.findAll();
         model.addAttribute("allCategories", all);
         Category category = new Category();
         model.addAttribute("category", category);
@@ -60,7 +60,7 @@ public class CategoryUiController {
     @PostMapping("/generateFeatureFile")
     public String generate(@RequestParam("categoryId") Long categoryId, Model model) {
         Category category = categoryService.findById(categoryId);
-        Set<Test> allTests = testService.findAll();
+        List<Test> allTests = testService.findAll();
         List<Test> result = allTests.stream().filter(s -> s.getCategory().equals(category) && !s.getSteps().isEmpty()).collect(Collectors.toList());
         TestWrapper wrapper = new TestWrapper();
         wrapper.setList(result);

@@ -1,12 +1,12 @@
 package com.test.management.system.controller.rest;
 
 import com.test.management.system.entity.Step;
-import com.test.management.system.util.exception.NotAllowedException;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
+import com.test.management.system.util.exception.NotAllowedException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.SortedSet;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -21,7 +21,7 @@ public class StepsRestController {
     }
 
     @GetMapping("/steps")
-    public SortedSet<Step> getSteps() {
+    public List<Step> getSteps() {
         return stepService.findAll();
     }
 

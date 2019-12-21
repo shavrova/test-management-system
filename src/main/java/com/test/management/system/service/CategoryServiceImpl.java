@@ -1,13 +1,12 @@
 package com.test.management.system.service;
 
 import com.test.management.system.entity.Category;
-import com.test.management.system.util.exception.ItemNotFoundException;
 import com.test.management.system.repository.CategoryRepository;
+import com.test.management.system.util.exception.ItemNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -19,8 +18,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public SortedSet<Category> findAll() {
-        return new TreeSet<>(categoryRepository.findAll());
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 
     @Override

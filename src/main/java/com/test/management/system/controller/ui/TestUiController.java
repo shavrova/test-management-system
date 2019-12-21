@@ -41,7 +41,7 @@ public class TestUiController {
 
     @GetMapping("/tests")
     public String getTests(Model model) {
-        SortedSet<Test> allTests = testService.findAll();
+        List<Test> allTests = testService.findAll();
         model.addAttribute("tests", allTests);
         return "tests-list";
     }

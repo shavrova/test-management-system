@@ -18,8 +18,8 @@ public class StepServiceImpl implements StepService {
     }
 
     @Override
-    public SortedSet<Step> findAll() {
-        return new TreeSet<>(stepRepository.findAll());
+    public List<Step> findAll() {
+        return stepRepository.findAll();
     }
 
     @Override

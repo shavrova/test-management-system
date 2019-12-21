@@ -36,8 +36,8 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public SortedSet<Test> findAll() {
-        return new TreeSet<>(testRepository.findAll());
+    public List<Test> findAll() {
+        return testRepository.findAll();
     }
 
     @Override

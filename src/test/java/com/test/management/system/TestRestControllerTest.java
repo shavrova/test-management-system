@@ -13,6 +13,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -48,8 +50,8 @@ public class TestRestControllerTest {
 
     @org.junit.jupiter.api.Test
     public void getAllTest() throws Exception {
-        Set<Test> tests = Stream.of(test).collect(Collectors.toSet());
-        given(testService.findAll()).willReturn(new TreeSet<>(tests));
+      //  Set<Test> tests = Stream.of(test).collect(Collectors.toSet());
+        given(testService.findAll()).willReturn(Arrays.asList(test));
         mvc.perform(get("/api/tests")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

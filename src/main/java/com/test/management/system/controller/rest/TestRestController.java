@@ -7,7 +7,6 @@ import com.test.management.system.service.TestService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.SortedSet;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -22,7 +21,7 @@ public class TestRestController {
     }
 
     @GetMapping("/tests")
-    public SortedSet<Test> getTests() {
+    public List<Test> getTests() {
         return testService.findAll();
     }
 
