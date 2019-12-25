@@ -2,11 +2,10 @@ package com.test.management.system.controller.ui;
 
 import com.test.management.system.entity.Step;
 import com.test.management.system.service.StepService;
-import org.apache.commons.lang3.NotImplementedException;
+import com.test.management.system.util.exception.NotAllowedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,15 +32,21 @@ public class StepUiController {
     }
 
     @PostMapping("/saveStep")
-    public String saveStep(@ModelAttribute Step step, BindingResult bindingResult) {
+    public String saveStep(@ModelAttribute Step step) {
         stepService.save(step);
         return "redirect:/showAllSteps";
     }
 
     @PostMapping("/editStep")
-    public String editStep(){
-        throw new NotImplementedException("");
-       // return "redirect:showAllSteps";
+    public String editStep(@RequestParam Long stepId, @RequestParam String stepDescription) {
+        Step step = stepService.findById(stepId);
+        if (stepService.findByDescription(stepDescription) == null) {
+            step.setStepDescription(stepDescription);
+            stepService.save(step);
+        } else {
+            throw new NotAllowedException(String.format("Step %s already exists", stepDescription));
+        }
+        return "redirect:showAllSteps";
     }
 
 }

@@ -59,7 +59,6 @@ public class TestUiController {
     @PostMapping("/save")
     public String saveTest(
             @ModelAttribute @Valid Test test,
-            BindingResult bindingResult,
             @RequestParam(required = false) List<String> description) {
         if(description != null) {
             for (String s : description) {
