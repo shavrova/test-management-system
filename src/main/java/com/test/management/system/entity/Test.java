@@ -49,9 +49,8 @@ public class Test extends BaseEntity implements Comparable<Test> {
     private User user;
 
     @OneToMany(
-            fetch = FetchType.EAGER,
             mappedBy = "test",
-            cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE},
+            cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<TestStep> steps = new ArrayList<>();
 
@@ -71,7 +70,7 @@ public class Test extends BaseEntity implements Comparable<Test> {
         TestStep testStep = new TestStep(this, step);
         testStep.setStepOrder(steps.size() + 1);
         steps.add(testStep);
-        steps.sort(Comparator.comparing(TestStep::getStepOrder));
+        Collections.sort(steps);
     }
 
     public boolean containsStep(Step step) {

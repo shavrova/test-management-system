@@ -53,7 +53,6 @@ public class TestServiceImpl implements TestService {
         } else {
             throw new ItemNotFoundException("Can't find test with id " + testId);
         }
-
         return test;
     }
 

@@ -49,8 +49,8 @@ public class TestStep implements Comparable<TestStep> {
             return false;
 
         TestStep that = (TestStep) o;
-        return Objects.equals(test.getId(), that.test.getId()) &&
-                Objects.equals(step.getId(), that.step.getId());
+        return Objects.equals(test, that.test) &&
+                Objects.equals(step, that.step);
     }
 
     @Override
