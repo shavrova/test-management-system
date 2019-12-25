@@ -109,11 +109,6 @@ public class Test extends BaseEntity implements Comparable<Test> {
     public int compareTo(Test test) {
         return this.getId().compareTo(test.getId());
     }
-
-    public Boolean containsStep(String stepDescription) {
-        return steps.stream()
-                .anyMatch(step -> step.getStep().getStepDescription().equalsIgnoreCase(stepDescription.trim()));
-    }
 }
 
 
