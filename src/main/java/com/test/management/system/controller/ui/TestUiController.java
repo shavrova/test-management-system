@@ -47,35 +47,34 @@ public class TestUiController {
     }
 
     @PostMapping("/addTest")
-    public String addTest(@ModelAttribute Test test, BindingResult bindingResult, Principal principal) {
+    public String addTest(@ModelAttribute @Valid Test test, Principal principal) {
         test.setUser(userService.findByEmail(principal.getName()));
         testService.save(test);
         return "redirect:/user";
     }
+
+    //TODO: Same step doesn't save (but no error)
 
 
     @PostMapping("/save")
     public String saveTest(
             @ModelAttribute @Valid Test test,
             BindingResult bindingResult,
-            @RequestParam(required = false) Set<String> description) {
-        if (description != null) {
-            description
-                    .stream()
-                    .forEach(s -> {
-                        if (stepService.findByDescription(s) != null) {
-                            test.addStep(stepService.findByDescription(s));
-                        } else {
-                            Step step = new Step(s);
-                            stepService.save(step);
-                            test.addStep(step);
-                        }
-                    });
+            @RequestParam(required = false) List<String> description) {
+        if(description != null) {
+            for (String s : description) {
+                if (stepService.findByDescription(s) != null) {
+                    test.addStep(stepService.findByDescription(s));
+                } else {
+                    Step step = new Step(s);
+                    stepService.save(step);
+                    test.addStep(step);
+                }
+            }
         }
         testService.save(test);
         return "redirect:/myTests";
     }
-
 
     @PostMapping("/showFormForUpdate")
     public String showFormForUpdate(
@@ -87,12 +86,11 @@ public class TestUiController {
         return "test-form";
     }
 
-
     @PostMapping("/delete")
     public String delete(@RequestParam("testId") Long id, HttpServletRequest request) {
         testService.deleteById(id);
         String referer = request.getHeader("Referer");
-        return "redirect:"+ referer;
+        return "redirect:" + referer;
     }
 
     @GetMapping(value = "/search")
@@ -111,7 +109,7 @@ public class TestUiController {
 
     @GetMapping(value = "/myTests")
     public String getCurrentUserTests(Principal principal, Model model) {
-        List<Test> myTests = testService.findAll().stream().filter(s->s.getUser().getEmail().equals(principal.getName())).collect(Collectors.toList());
+        List<Test> myTests = testService.findAll().stream().filter(s -> s.getUser().getEmail().equals(principal.getName())).collect(Collectors.toList());
         model.addAttribute("tests", myTests);
         Test test = new Test();
         model.addAttribute("test", test);
@@ -128,5 +126,4 @@ public class TestUiController {
         model.addAttribute("categories", categoryService.findAll());
         return "test-form";
     }
-
 }

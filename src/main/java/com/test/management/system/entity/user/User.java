@@ -1,6 +1,5 @@
 package com.test.management.system.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.test.management.system.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -5,6 +5,7 @@ import com.test.management.system.repository.CategoryRepository;
 import com.test.management.system.util.exception.ItemNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findAll() {
-        return categoryRepository.findAll();
+        List<Category> all = categoryRepository.findAll();
+        Collections.sort(all);
+        return all;
     }
 
     @Override

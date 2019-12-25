@@ -2,6 +2,7 @@ package com.test.management.system.controller.ui;
 
 import com.test.management.system.entity.Step;
 import com.test.management.system.service.StepService;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,12 @@ public class StepUiController {
     public String saveStep(@ModelAttribute Step step, BindingResult bindingResult) {
         stepService.save(step);
         return "redirect:/showAllSteps";
+    }
+
+    @PostMapping("/editStep")
+    public String editStep(){
+        throw new NotImplementedException("");
+       // return "redirect:showAllSteps";
     }
 
 }

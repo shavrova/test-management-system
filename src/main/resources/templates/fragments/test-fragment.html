@@ -19,10 +19,14 @@
                     </div>
                     <!--                            TEST NAME-->
 
-                    <div class="row">
-                        <div class="col form-group">
-                            <label for="testName">Test Name</label>
-                            <input th:field="*{testName}" type="text" class="form-control" id="testName">
+                    <div class="form-group" th:classappend="${#fields.hasErrors('testName')}? 'has-error':''">
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="testName">Test Name</label>
+                                <input th:field="*{testName}" type="text" class="form-control" id="testName">
+                                <p class="text-danger" th:each="error : ${#fields.errors('testName')}"
+                                   th:text="${error}"></p>
+                            </div>
                         </div>
                     </div>
                     <input th:field="*{createDate}" type="hidden">
@@ -47,19 +51,21 @@
                         <div class="row item" th:each="step, status : ${test.steps}">
                             <div class="col form-group d-none">
                                 <input th:field="*{steps[__${status.index}__].id.stepId}" type="hidden">
-                            </div>
-                            <div class="col form-group d-none">
                                 <input th:field="*{steps[__${status.index}__].id.testId}" type="hidden">
-                            </div>
-                            <div class="col form-group d-none">
                                 <input th:field="*{steps[__${status.index}__].stepOrder}" type="hidden">
-                            </div>
-                            <div class="col form-group d-none">
                                 <input th:field="*{steps[__${status.index}__].step.id}" type="hidden">
+                                <input th:field="*{steps[__${status.index}__].test.id}" type="hidden">
                             </div>
                             <div class="col form-group d-flex flex-row" name="parent name">
-                                <input th:field="*{steps[__${status.index}__].step.stepDescription}" type="text"
-                                       class="form-control p-2">
+
+                                <div class="form-group"
+                                     th:classappend="${#fields.hasErrors('steps[__${status.index}__].step.stepDescription')}? 'has-error':''">
+                                    <input th:field="*{steps[__${status.index}__].step.stepDescription}" type="text"
+                                           class="form-control p-2">
+                                    <p class="text-danger"
+                                       th:each="error : ${#fields.errors('steps[__${status.index}__].step.stepDescription')}"
+                                       th:text="${error}"></p>
+                                </div>
                                 <button type="button" class="btn btn-default p-2"
                                         th:onclick="'javascript:deleteStep(\'' + ${test.id} + '\',\'' + *{steps[__${status.index}__].id.stepId} + '\');'">
                                     <i class="fas fa-trash-alt"></i>

@@ -19,7 +19,9 @@ public class StepServiceImpl implements StepService {
 
     @Override
     public List<Step> findAll() {
-        return stepRepository.findAll();
+        List<Step> all = stepRepository.findAll();
+        Collections.sort(all);
+        return all;
     }
 
     @Override

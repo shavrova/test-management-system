@@ -3,11 +3,13 @@ package com.test.management.system.service;
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
 import com.test.management.system.entity.TestStep;
-import com.test.management.system.util.exception.ItemNotFoundException;
 import com.test.management.system.repository.TestRepository;
+import com.test.management.system.util.exception.ItemNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +39,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public List<Test> findAll() {
-        return testRepository.findAll();
+        List<Test> all = testRepository.findAll();
+        Collections.sort(all);
+        return all;
     }
 
     @Override

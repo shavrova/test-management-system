@@ -8,10 +8,11 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.security.Principal;
+
 import java.util.*;
 
 @Getter
@@ -23,7 +24,9 @@ import java.util.*;
 public class Test extends BaseEntity implements Comparable<Test> {
 
     @NotNull
-    @Size(min = 2, max = 100)
+    @Size(min = 2,
+            max = 255,
+            message = "Name should be at least {min} characters long, but no more than {max}.")
     @Column(name = "test_name")
     private String testName;
 
@@ -46,10 +49,10 @@ public class Test extends BaseEntity implements Comparable<Test> {
     private User user;
 
     @OneToMany(
+            fetch = FetchType.EAGER,
             mappedBy = "test",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
+            cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE},
+            orphanRemoval = true)
     private List<TestStep> steps = new ArrayList<>();
 
     @PrePersist
@@ -106,6 +109,11 @@ public class Test extends BaseEntity implements Comparable<Test> {
     @Override
     public int compareTo(Test test) {
         return this.getId().compareTo(test.getId());
+    }
+
+    public Boolean containsStep(String stepDescription) {
+        return steps.stream()
+                .anyMatch(step -> step.getStep().getStepDescription().equalsIgnoreCase(stepDescription.trim()));
     }
 }
 

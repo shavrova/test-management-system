@@ -19,12 +19,18 @@ public class TestRestExceptionHandler {
 //        ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage());
 //        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 //    }
-//
+
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(NotAllowedException exc) {
-        ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), exc.getMessage()+"not allowed!");
+        ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), exc.getMessage());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
+
+//    @ExceptionHandler
+//    public ResponseEntity<ErrorResponse> handleException(IllegalStateException exc) {
+//        ErrorResponse error = new ErrorResponse(HttpStatus.CONFLICT.value(), "Entity is already exists.");
+//        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+//    }
 }
 
 

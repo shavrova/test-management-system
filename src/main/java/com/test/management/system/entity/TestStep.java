@@ -23,7 +23,6 @@ public class TestStep implements Comparable<TestStep> {
     @MapsId("testId")
     private Test test;
 
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("stepId")
@@ -35,7 +34,7 @@ public class TestStep implements Comparable<TestStep> {
     @Column(name="step_usecase")
     private String stepUsecase;
 
-    public TestStep(Test test, Step step) {
+    TestStep(Test test, Step step) {
         this.test = test;
         this.step = step;
         this.id = new TestStepId(test.getId(), step.getId());
@@ -50,13 +49,13 @@ public class TestStep implements Comparable<TestStep> {
             return false;
 
         TestStep that = (TestStep) o;
-        return Objects.equals(test, that.test) &&
-                Objects.equals(step, that.step);
+        return Objects.equals(test.getId(), that.test.getId()) &&
+                Objects.equals(step.getId(), that.step.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(test, step);
+        return Objects.hash(test, step) ;
     }
 
     @Override

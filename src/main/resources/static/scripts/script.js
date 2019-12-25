@@ -9,8 +9,11 @@ let addRow = function () {
             input.type = 'text';
             input.classList.add('form-control');
             input.setAttribute('name', 'description');
-            input.id = 'autocomplete-input'+ rowIndex;
             col.appendChild(input);
+            input.id = 'autocomplete-input'+ rowIndex;
+
+
+
             row.appendChild(col);
         document.getElementById('stepsList').appendChild(row);
 

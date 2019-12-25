@@ -33,7 +33,11 @@
                     </select>
                 </td>
                 <td>
-                    <input type="text" th:field="*{testName}" class="form-control" placeholder="Test Name" required>
+                    <div class="form-group" th:classappend="${#fields.hasErrors('testName')}? 'has-error':''">
+                        <input type="text" th:field="*{testName}" class="form-control" placeholder="Test Name" required id="testName">
+                        <p class="text-danger" th:each="error : ${#fields.errors('testName')}" th:text="${error}">
+                            Validation error</p>
+                    </div>
                 </td>
                 <td>
                     <input type="text" th:field="*{testDescription}" class="form-control"
