@@ -14,13 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -53,14 +52,11 @@ public class TestUiController {
         return "redirect:/user";
     }
 
-    //TODO: Same step doesn't save (but no error)
-
-
     @PostMapping("/save")
     public String saveTest(
             @ModelAttribute @Valid Test test,
             @RequestParam(required = false) List<String> description) {
-        if(description != null) {
+        if (description != null) {
             for (String s : description) {
                 if (stepService.findByDescription(s) != null) {
                     test.addStep(stepService.findByDescription(s));

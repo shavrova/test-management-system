@@ -14,7 +14,8 @@
 	<name>test-management-system</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>1.12</java.version>
+		<maven.compiler.release>11</maven.compiler.release>
+		<java.version>1.11</java.version>
 		<jquery.version>3.4.1</jquery.version>
 		<bootstrap.version>4.4.1</bootstrap.version>
 		<jpa.version>2.2</jpa.version>
@@ -22,8 +23,9 @@
 		<springfox>2.9.2</springfox>
 		<thymeleaf.layout>2.3.0</thymeleaf.layout>
 		<apache.common>1.8</apache.common>
+		<docker.id>norik766</docker.id>
+		<start-class>com.test.management.system.TestManagementSystemApplication</start-class>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -122,6 +124,35 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.2.1.RELEASE</version>
+				<configuration>
+					<mainClass>${start-class}</mainClass>
+					<layout>ZIP</layout>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.6</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<repository>${docker.id}/${project.name}</repository>
+					<tag>${project.version}</tag>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
