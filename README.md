@@ -1,4 +1,4 @@
-## Test managemnt system application
+## Test Management System application
 This application is build in learning puproses.
 
 Stack:
