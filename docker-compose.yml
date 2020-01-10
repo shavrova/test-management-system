@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  todo-web-application:
+    image: norik766/test-management-system:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - mysql 
+    environment:
+      RDS_HOSTNAME: mysql
+      RDS_PORT: 3306
+      RDS_DB_NAME: tmsdb
+      RDS_USERNAME: tmsdb-user
+      RDS_PASSWORD: 1234
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: tmsdb-user
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: tmsdb
+    volumes:
+      - mysql-database-data-volume:/var/lib/mysql
+
+# Volumes
+volumes:
+  mysql-database-data-volume:
