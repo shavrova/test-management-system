@@ -9,4 +9,8 @@ public interface TestService extends CrudService<Test, Long>{
 
     List<Step> getSteps(Long testId);
 
+    List<Test> getUserTests(Long userId);
+
+    List<Test> getDeletedUserTests();
+
 }

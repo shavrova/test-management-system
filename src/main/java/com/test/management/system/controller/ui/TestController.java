@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/")
-public class TestUiController {
+public class TestController {
 
     @Autowired
     TestService testService;
@@ -104,8 +106,7 @@ public class TestUiController {
 
     @GetMapping(value = "/myTests")
     public String getCurrentUserTests(Principal principal, Model model) {
-        List<Test> myTests = testService.findAll().stream().filter(s -> s.getUser().getEmail().equals(principal.getName())).collect(Collectors.toList());
-        model.addAttribute("tests", myTests);
+        model.addAttribute("tests", testService.getUserTests(userService.findByEmail(principal.getName()).getId()));
         Test test = new Test();
         model.addAttribute("test", test);
         model.addAttribute("categories", categoryService.findAll());

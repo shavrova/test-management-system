@@ -1,13 +1,16 @@
 package com.test.management.system.service.user;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.test.management.system.entity.Test;
 import com.test.management.system.entity.user.Role;
 import com.test.management.system.entity.user.User;
 import com.test.management.system.entity.user.UserRegistrationDto;
 import com.test.management.system.repository.user.UserRepository;
+import com.test.management.system.service.CrudService;
+import com.test.management.system.service.TestService;
+import com.test.management.system.util.exception.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +24,10 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+
+    @Autowired
+    TestService testService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -51,9 +57,36 @@ public class UserServiceImpl implements UserService {
                 mapRolesToAuthorities(user.getRoles()));
     }
 
-    private Collection < ? extends GrantedAuthority > mapRolesToAuthorities(Collection < Role > roles) {
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User findById(Long id) {
+        Optional<User> res = userRepository.findById(id);
+        User user;
+        if (res.isPresent()) {
+            user = res.get();
+        } else {
+            throw new ItemNotFoundException("Can't find user with id " + id);
+        }
+        return user;
+    }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
     }
 }

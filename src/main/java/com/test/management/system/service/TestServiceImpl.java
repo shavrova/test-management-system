@@ -7,6 +7,7 @@ import com.test.management.system.repository.TestRepository;
 import com.test.management.system.util.exception.ItemNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +65,30 @@ public class TestServiceImpl implements TestService {
     @Override
     public void deleteById(Long testId) {
         testRepository.deleteById(testId);
+    }
+
+    @Override
+    public List<Test> getUserTests(Long userId) {
+        List<Test> userTest = new ArrayList<>();
+        for (Test test : testRepository.findAll()) {
+            if (test.getUser() != null && test.getUser().getId().equals(userId)) {
+                userTest.add(test);
+            }
+        }
+        return userTest;
+    }
+
+    @Override
+    public List<Test> getDeletedUserTests() {
+        List<Test> userTest = new ArrayList<>();
+        for (Test test : testRepository.findAll()) {
+            System.out.println("size: " + testRepository.findAll().size());
+            System.out.println("test:" + test);
+            if (test.getUser() == null) {
+                userTest.add(test);
+            }
+        }
+        return userTest;
     }
 }
 

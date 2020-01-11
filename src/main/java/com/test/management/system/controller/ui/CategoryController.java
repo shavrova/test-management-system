@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/")
-public class CategoryUiController {
+public class CategoryController {
     @Autowired
     CategoryService categoryService;
 

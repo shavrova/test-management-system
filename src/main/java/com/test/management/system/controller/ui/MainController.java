@@ -20,7 +20,10 @@ public class MainController {
     }
 
     @GetMapping("/user")
-    public String userIndex() {
-        return "redirect:myTests";
+    public String userIndex(Principal principal) {
+        if (principal.getName().equals("manager"))
+            return "redirect:admin";
+        else
+            return "redirect:myTests";
     }
 }

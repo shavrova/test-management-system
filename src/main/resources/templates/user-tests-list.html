@@ -3,28 +3,40 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}"/>
     <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js/}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
-
-    <link rel="stylesheet" type="text/css" th:href="@{css/autocomplete.css}" />
     <script type="text/javascript" th:src="@{/scripts/script.js}"></script>
-
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-
-    <title>Edit Test</title>
+    <title>Test List</title>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div class="container">
+    <div th:if="${not #lists.isEmpty(tests)}">
+        <br>
+        <h2>
+            Tests created by user: <span th:text="${tests[0].user.firstName}"></span>
+            <span th:text="${tests[0].user.lastName}"></span>
+            (<span th:text="${tests[0].user.email}"></span>)
+            <br>
+            Number of tests: <span th:text="${#lists.size(tests)}"></span>
+        </h2>
+        <br>
+        <div th:replace="fragments/test-table:: testsTable()"></div>
+    </div>
+    <!-- ELSE -->
+    <div th:unless="${not #lists.isEmpty(tests)}">
+        <br>
+        <div class="alert alert-danger" role="alert">No tests for selected user</div>
+    </div>
     <br>
-    <div th:replace="fragments/test-fragment:: testForm(${test}, cat)"></div>
+    <a th:href="@{/admin}">Go Back</a>
 </div>
 </body>
 </html>
+
+
+

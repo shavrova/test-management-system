@@ -26,7 +26,5 @@ services:
       MYSQL_DATABASE: tmsdb
     volumes:
       - mysql-database-data-volume:/var/lib/mysql
-
-# Volumes
 volumes:
   mysql-database-data-volume:

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping(path = "/")
-public class StepUiController {
+public class StepController {
     @Autowired
     StepService stepService;
 

@@ -22,7 +22,6 @@ public class User extends BaseEntity {
     private String email;
     private String password;
 
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_role",
@@ -46,5 +45,4 @@ public class User extends BaseEntity {
         this.password = password;
         this.roles = roles;
     }
-
 }

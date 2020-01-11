@@ -30,9 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/css/**",
                         "/img/**",
                         "/webjars/**").permitAll()
+                .antMatchers("/admin").access("hasRole('MANAGER')")
                 .anyRequest().authenticated()
                 .and()
-
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
@@ -59,17 +59,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("manager")
+                .password(passwordEncoder().encode("1234"))
+                .roles("MANAGER");
         auth.authenticationProvider(authenticationProvider());
+        ;
     }
 
-//    @Override
-////    public void configure(WebSecurity webSecurity){
-////        webSecurity.ignoring().antMatchers("/v2/api-docs",
-////                "/configuration/ui",
-////                "/swagger-resources/**",
-////                "/configuration/security",
-////                "/swagger-ui.html",
-////                "/webjars/**");
-////    }
 }
