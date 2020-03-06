@@ -1,5 +1,6 @@
 package com.test.management.system.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.test.management.system.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class User extends BaseEntity {
     private String firstName;
     private String lastName;
     private String email;
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -65,7 +65,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password(passwordEncoder().encode("1234"))
                 .roles("MANAGER");
         auth.authenticationProvider(authenticationProvider());
-        ;
+
+        auth.inMemoryAuthentication()
+                .withUser("spring")
+                .password(passwordEncoder().encode("1234"))
+                .roles("TEST");
+        auth.authenticationProvider(authenticationProvider());
     }
 
 }
