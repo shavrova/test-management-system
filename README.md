@@ -7,7 +7,6 @@ Stack:
 - thymeleaf
 - mysql
 
-Deployed on Kubernetes : [http://35.233.44.154:8080/](http://35.233.44.154:8080/)
 
 To deploy on Google kubernetes engine:
 1. Create cluster

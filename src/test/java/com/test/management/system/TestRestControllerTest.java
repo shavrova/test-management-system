@@ -10,6 +10,7 @@ import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
 import com.test.management.system.service.user.UserService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -60,7 +61,7 @@ public class TestRestControllerTest {
     }
 
 
-    @BeforeAll
+    @BeforeEach
     public void setupForEach() {
         given(testService.findAll()).willReturn(Arrays.asList(test));
     }
