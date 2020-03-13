@@ -4,6 +4,7 @@ import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,15 +32,14 @@ public class TestRestController {
         return testService.findById(testId);
     }
 
-
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/tests")
     public Test addTest(@RequestBody Test test) {
         testService.save(test);
         return test;
     }
 
-
-    @PutMapping("/tests/")
+    @PutMapping("/tests")
     public Test updateTest(@RequestBody Test test) {
         testService.save(test);
         return test;
@@ -51,13 +51,6 @@ public class TestRestController {
         return testService.getSteps(testId);
     }
 
-
-    @DeleteMapping("/tests/{testId}")
-    public String deleteTest(@PathVariable Long testId) {
-        testService.deleteById(testId);
-        return "Test " + testId + " was deleted";
-    }
-
     @PostMapping("/tests/{testId}/steps/{stepId}")
     public Test addStepToTest(@PathVariable Long testId, @PathVariable Long stepId) {
         Test test = testService.findById(testId);
@@ -65,6 +58,13 @@ public class TestRestController {
         test.addStep(step);
         testService.save(test);
         return test;
+    }
+
+    @ResponseStatus(HttpStatus.GONE)
+    @DeleteMapping("/tests/{testId}")
+    public String deleteTest(@PathVariable Long testId) {
+        testService.deleteById(testId);
+        return "Test " + testId + " was deleted";
     }
 
     @DeleteMapping("/tests/{testId}/steps/{stepId}")
