@@ -169,7 +169,6 @@ public class TestRestControllerTest {
 
     @Test
     public void whenUnlinkStep_thenStepIsUnlinkedFromTest() throws Exception {
-        test.addStep(step);
         given(stepService.findById(10L)).willReturn(step);
         mvc = MockMvcBuilders.standaloneSetup(new TestRestController(testService, stepService)).build();
         mvc.perform(delete("/api/tests/{testId}/steps/{stepId}", 5, 10))
