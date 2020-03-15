@@ -81,37 +81,16 @@ public class TestRestControllerTest {
     }
 
     @Test
-    public void givenTestCreated_thenReturnedTest() throws Exception {
+    public void whenGetAllTests_thenCreatedTestIsReturnedInArray() throws Exception {
         mvc.perform(get("/api/tests")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].testName", is(test.getTestName())))
-                .andExpect(jsonPath("$[0].testDescription", is(test.getTestDescription())));
-    }
-
-    @Test
-    public void givenTestCreated_thenReturnedCreatedDate() throws Exception {
-        mvc.perform(get("/api/tests")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(jsonPath("$[0].createDate", is(new SimpleDateFormat("dd-MM-yyyy").format(new Date()))));
-    }
-
-    @Test
-    public void givenTestCreated_thenReturnedCategory() throws Exception {
-        mvc.perform(get("/api/tests")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(jsonPath("$[0].category.categoryName", is(category.getCategoryName())));
-    }
-
-    @Test
-    public void givenTestEndpoint_thenReturnsUser() throws Exception {
-        mvc.perform(get("/api/tests")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
+                .andExpect(jsonPath("$[0].testDescription", is(test.getTestDescription())))
+                .andExpect(jsonPath("$[0].createDate", is(new SimpleDateFormat("dd-MM-yyyy").format(new Date()))))
+                .andExpect(jsonPath("$[0].category.categoryName", is(category.getCategoryName())))
                 .andExpect(jsonPath("$[0].user.firstName", is(user.getFirstName())))
                 .andExpect(jsonPath("$[0].user.lastName", is(user.getLastName())))
                 .andExpect(jsonPath("$[0].user.roles[0].name", is(role.getName())));
@@ -159,7 +138,7 @@ public class TestRestControllerTest {
     }
 
     @Test
-    public void whenSendDeleteRequest_thenResourceIsDeleted() throws Exception {
+    public void whenDeleteTest_thenResourceIsDeleted() throws Exception {
         mvc.perform(delete("/api/tests/{testId}", 5)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -187,6 +166,5 @@ public class TestRestControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.steps[*].id.stepId", hasItem(20)));
-
     }
 }
