@@ -52,11 +52,6 @@ public class TestRestControllerTest {
 
     @BeforeAll
     public static void setup() {
-        //category = new Category("Login");
-        // role = new Role("new role");
-        //user = new User("First Name", "Last Name", "email@email.com", "password", Arrays.asList(role));
-        // step = new Step("My step description");
-        //step.setId(10L);
         category = Category.builder().categoryName("Login").build();
         role = Role.builder().name("NEW_ROLE").build();
         user = User.builder()
@@ -77,8 +72,6 @@ public class TestRestControllerTest {
                 .build();
         test.setId(5L);
         test.addStep(step);
-        //test = new com.test.management.system.entity.Test("Name", "description", new Date(), category, user);
-        // test.setId(5L);
     }
 
     @BeforeEach
