@@ -3,10 +3,7 @@ package com.test.management.system.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.test.management.system.entity.user.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -14,10 +11,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
 
+@Builder
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tests")
 public class Test extends BaseEntity implements Comparable<Test> {
@@ -65,6 +64,7 @@ public class Test extends BaseEntity implements Comparable<Test> {
         this.testDescription = testDescription;
         this.category = category;
     }
+
     public Test(String testName, String testDescription, Date date, Category category, User user) {
         this.testName = testName;
         this.testDescription = testDescription;
@@ -76,6 +76,8 @@ public class Test extends BaseEntity implements Comparable<Test> {
 
     public void addStep(Step step) {
         TestStep testStep = new TestStep(this, step);
+        if (steps == null)
+            steps = new ArrayList<>();
         testStep.setStepOrder(steps.size() + 1);
         steps.add(testStep);
         Collections.sort(steps);

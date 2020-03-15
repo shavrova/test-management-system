@@ -24,8 +24,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import static com.test.management.system.util.JsonUtils.asJsonString;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -53,13 +52,33 @@ public class TestRestControllerTest {
 
     @BeforeAll
     public static void setup() {
-        category = new Category("Login");
-        role = new Role("new role");
-        user = new User("First Name", "Last Name", "email@email.com", "password", Arrays.asList(role));
-        step = new Step("My step description");
+        //category = new Category("Login");
+        // role = new Role("new role");
+        //user = new User("First Name", "Last Name", "email@email.com", "password", Arrays.asList(role));
+        // step = new Step("My step description");
+        //step.setId(10L);
+        category = Category.builder().categoryName("Login").build();
+        role = Role.builder().name("NEW_ROLE").build();
+        user = User.builder()
+                .firstName("First Name")
+                .lastName("Last Name")
+                .email("email@email.com")
+                .password("password")
+                .roles(Arrays.asList(role))
+                .build();
+        step = Step.builder().stepDescription("My step description").build();
         step.setId(10L);
-        test = new com.test.management.system.entity.Test("Name", "description", new Date(), category, user);
+        test = com.test.management.system.entity.Test.builder()
+                .testName("Name")
+                .testDescription("description")
+                .createDate(new Date())
+                .category(category)
+                .user(user)
+                .build();
         test.setId(5L);
+        test.addStep(step);
+        //test = new com.test.management.system.entity.Test("Name", "description", new Date(), category, user);
+        // test.setId(5L);
     }
 
     @BeforeEach
@@ -175,7 +194,7 @@ public class TestRestControllerTest {
         mvc.perform(post("/api/tests/{testId}/steps/{stepId}", 5, 20))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.steps[0].id.stepId", is(20)));
+                .andExpect(jsonPath("$.steps[*].id.stepId", hasItem(20)));
 
     }
 }
