@@ -1,15 +1,9 @@
 package com.test.management.system.service.user;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import com.test.management.system.entity.Test;
 import com.test.management.system.entity.user.Role;
 import com.test.management.system.entity.user.User;
 import com.test.management.system.entity.user.UserRegistrationDto;
 import com.test.management.system.repository.user.UserRepository;
-import com.test.management.system.service.CrudService;
-import com.test.management.system.service.TestService;
 import com.test.management.system.util.exception.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,15 +13,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    TestService testService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -42,7 +39,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(registration.getLastName());
         user.setEmail(registration.getEmail());
         user.setPassword(passwordEncoder.encode(registration.getPassword()));
-        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+        user.setRoles(Collections.singletonList(new Role("ROLE_USER")));
         return userRepository.save(user);
     }
 

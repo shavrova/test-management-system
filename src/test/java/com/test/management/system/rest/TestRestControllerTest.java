@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 import static com.test.management.system.util.JsonUtils.asJsonString;
@@ -59,7 +60,7 @@ public class TestRestControllerTest {
                 .lastName("Last Name")
                 .email("email@email.com")
                 .password("password")
-                .roles(Arrays.asList(role))
+                .roles(Collections.singletonList(role))
                 .build();
         step = Step.builder().stepDescription("My step description").build();
         step.setId(10L);

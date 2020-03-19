@@ -6,7 +6,6 @@ import com.test.management.system.service.CategoryService;
 import com.test.management.system.service.TestService;
 import com.test.management.system.util.wrapper.TestWrapper;
 import feature.generator.service.FileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,14 +26,16 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping(path = "/")
 public class CategoryController {
-    @Autowired
+
     CategoryService categoryService;
-
-    @Autowired
     TestService testService;
-
-    @Autowired
     FileService fileService;
+
+    public CategoryController(CategoryService categoryService, TestService testService, FileService fileService) {
+        this.categoryService = categoryService;
+        this.testService = testService;
+        this.fileService = fileService;
+    }
 
     @PostMapping("/deleteCat")
     public String deleteCategory(@RequestParam("categoryId") Long id) {
@@ -89,7 +90,7 @@ public class CategoryController {
         File file = fileService.createJavaFile(testWrapper);
         HttpHeaders respHeaders = new HttpHeaders();
         respHeaders.setContentType(MediaType.TEXT_PLAIN);
-        respHeaders.setContentDispositionFormData("attachment", testWrapper.getFeatureName()+"Steps"+ ".java");
+        respHeaders.setContentDispositionFormData("attachment", testWrapper.getFeatureName() + "Steps" + ".java");
         InputStreamResource isr = new InputStreamResource(new FileInputStream(file));
         return new ResponseEntity<>(isr, respHeaders, HttpStatus.OK);
     }

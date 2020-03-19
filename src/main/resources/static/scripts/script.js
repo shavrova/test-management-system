@@ -51,7 +51,7 @@ let submitOnEnter = function(){
 
 let deleteStep = function(testId, stepId){
         $.ajax({
-            url: "api/tests/"+testId+"/steps/"+stepId,
+            url: "tests/"+testId+"/steps/"+stepId,
             type: "DELETE",
             success: function(response)
             {

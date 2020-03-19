@@ -3,7 +3,6 @@ package com.test.management.system.controller.ui;
 import com.test.management.system.entity.user.User;
 import com.test.management.system.service.TestService;
 import com.test.management.system.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +13,13 @@ import java.util.List;
 @RequestMapping(path = "/")
 public class AdminController {
 
-    @Autowired
     UserService userService;
-
-    @Autowired
     TestService testService;
+
+    public AdminController(UserService userService, TestService testService) {
+        this.userService = userService;
+        this.testService = testService;
+    }
 
     @GetMapping("/admin")
     public String showAllCategories(Model model) {

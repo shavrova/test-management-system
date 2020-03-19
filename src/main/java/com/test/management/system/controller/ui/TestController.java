@@ -1,7 +1,5 @@
 package com.test.management.system.controller.ui;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.management.system.entity.Step;
 import com.test.management.system.entity.Test;
 import com.test.management.system.entity.user.User;
@@ -9,9 +7,6 @@ import com.test.management.system.service.CategoryService;
 import com.test.management.system.service.StepService;
 import com.test.management.system.service.TestService;
 import com.test.management.system.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +14,23 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/")
 public class TestController {
 
-    @Autowired
     TestService testService;
-
-    @Autowired
     StepService stepService;
-
-    @Autowired
     CategoryService categoryService;
-
-    @Autowired
     UserService userService;
+
+    public TestController(TestService testService, StepService stepService, CategoryService categoryService, UserService userService) {
+        this.testService = testService;
+        this.stepService = stepService;
+        this.categoryService = categoryService;
+        this.userService = userService;
+    }
 
     @GetMapping("/tests")
     public String getTests(Model model) {
@@ -90,21 +82,7 @@ public class TestController {
         return "redirect:" + referer;
     }
 
-    @GetMapping(value = "/search")
-    public ResponseEntity<String> getAllSteps(@RequestParam("q") String input) {
-        List<String> result = stepService.findByPartialDescription(input)
-                .stream()
-                .map(Step::getStepDescription)
-                .collect(Collectors.toList());
-        String resp = "";
-        try {
-            resp = new ObjectMapper().writeValueAsString(result);
-        } catch (JsonProcessingException e) {
-        }
-        return new ResponseEntity<>(resp, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/myTests")
+    @GetMapping("/myTests")
     public String getCurrentUserTests(Principal principal, Model model) {
         model.addAttribute("tests", testService.getUserTests(userService.findByEmail(principal.getName()).getId()));
         Test test = new Test();

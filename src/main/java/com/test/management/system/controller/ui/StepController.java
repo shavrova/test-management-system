@@ -3,7 +3,6 @@ package com.test.management.system.controller.ui;
 import com.test.management.system.entity.Step;
 import com.test.management.system.service.StepService;
 import com.test.management.system.util.exception.NotAllowedException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,11 @@ import java.util.List;
 @Controller
 @RequestMapping(path = "/")
 public class StepController {
-    @Autowired
     StepService stepService;
+
+    public StepController(StepService stepService) {
+        this.stepService = stepService;
+    }
 
     @PostMapping("/deleteStep")
     public String deleteStep(@RequestParam("stepId") Long id) {
@@ -48,5 +50,4 @@ public class StepController {
         }
         return "redirect:showAllSteps";
     }
-
 }
