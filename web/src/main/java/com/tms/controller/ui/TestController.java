@@ -84,6 +84,7 @@ public class TestController {
 
     @GetMapping("/myTests")
     public String getCurrentUserTests(Principal principal, Model model) {
+        //TODO: crashes after start on new database because there is no user in the system
         model.addAttribute("tests", testService.getUserTests(userService.findByEmail(principal.getName()).getId()));
         Test test = new Test();
         model.addAttribute("test", test);
