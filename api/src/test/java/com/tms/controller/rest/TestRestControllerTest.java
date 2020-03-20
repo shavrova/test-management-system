@@ -26,6 +26,7 @@ import java.util.Date;
 import static com.tms.util.JsonUtils.asJsonString;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -62,7 +63,7 @@ public class TestRestControllerTest {
                 .roles(Collections.singletonList(role))
                 .build();
         step = Step.builder().stepDescription("My step description").build();
-        step.setId(10L);
+        step.setId(1L);
         test = com.tms.model.entity.Test.builder()
                 .testName("Name")
                 .testDescription("description")
@@ -70,14 +71,14 @@ public class TestRestControllerTest {
                 .category(category)
                 .user(user)
                 .build();
-        test.setId(5L);
+        test.setId(1L);
         test.addStep(step);
     }
 
     @BeforeEach
     public void setupForEach() {
         given(testService.findAll()).willReturn(Arrays.asList(test));
-        given(testService.findById(5L)).willReturn(test);
+        given(testService.findById(anyLong())).willReturn(test);
     }
 
     @Test
@@ -98,8 +99,8 @@ public class TestRestControllerTest {
 
     @Test
     public void whenGetTestById_thenReturnedTestWithTargetId() throws Exception {
-        given(testService.findById(5L)).willReturn(test);
-        mvc.perform(get("/api/tests/{testId}", 5)
+        given(testService.findById(anyLong())).willReturn(test);
+        mvc.perform(get("/api/tests/{testId}", 1)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -139,7 +140,7 @@ public class TestRestControllerTest {
 
     @Test
     public void whenDeleteTest_thenResourceIsDeleted() throws Exception {
-        mvc.perform(delete("/api/tests/{testId}", 5)
+        mvc.perform(delete("/api/tests/{testId}", 1)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isGone())
@@ -148,9 +149,9 @@ public class TestRestControllerTest {
 
     @Test
     public void whenUnlinkStep_thenStepIsUnlinkedFromTest() throws Exception {
-        given(stepService.findById(10L)).willReturn(step);
+        given(stepService.findById(anyLong())).willReturn(step);
         mvc = MockMvcBuilders.standaloneSetup(new TestRestController(testService, stepService)).build();
-        mvc.perform(delete("/api/tests/{testId}/steps/{stepId}", 5, 10))
+        mvc.perform(delete("/api/tests/{testId}/steps/{stepId}", 1, 1))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("unlinked")));
@@ -159,12 +160,12 @@ public class TestRestControllerTest {
     @Test
     public void whenLinkStep_thenStepIsLinkedToTest() throws Exception {
         Step s = new Step("new Step");
-        s.setId(20L);
-        given(stepService.findById(20L)).willReturn(s);
+        s.setId(2L);
+        given(stepService.findById(2L)).willReturn(s);
         mvc = MockMvcBuilders.standaloneSetup(new TestRestController(testService, stepService)).build();
-        mvc.perform(post("/api/tests/{testId}/steps/{stepId}", 5, 20))
+        mvc.perform(post("/api/tests/{testId}/steps/{stepId}", 1, 2))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.steps[*].id.stepId", hasItem(20)));
+                .andExpect(jsonPath("$.steps[*].id.stepId", hasItem(2)));
     }
 }
