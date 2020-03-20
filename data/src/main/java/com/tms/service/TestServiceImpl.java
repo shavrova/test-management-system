@@ -82,8 +82,6 @@ public class TestServiceImpl implements TestService {
     public List<Test> getDeletedUserTests() {
         List<Test> userTest = new ArrayList<>();
         for (Test test : testRepository.findAll()) {
-            System.out.println("size: " + testRepository.findAll().size());
-            System.out.println("test:" + test);
             if (test.getUser() == null) {
                 userTest.add(test);
             }
