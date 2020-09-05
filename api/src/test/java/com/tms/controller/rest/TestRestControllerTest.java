@@ -143,7 +143,7 @@ public class TestRestControllerTest {
         mvc.perform(delete("/api/tests/{testId}", 1)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isGone())
+                .andExpect(status().isOk())
                 .andExpect(content().string(containsString("deleted")));
     }
 

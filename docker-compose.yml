@@ -12,7 +12,7 @@ services:
       RDS_PORT: 3306
       RDS_DB_NAME: tmsdb
       RDS_USERNAME: tmsdb-user
-      RDS_PASSWORD: 1234
+      RDS_PASSWORD: test
 
   mysql:
     image: mysql:latest
@@ -22,7 +22,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: tmsdb-user
-      MYSQL_PASSWORD: 1234
+      MYSQL_PASSWORD: test
       MYSQL_DATABASE: tmsdb
     volumes:
       - mysql-database-data-volume:/var/lib/mysql

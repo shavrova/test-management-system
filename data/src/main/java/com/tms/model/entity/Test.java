@@ -73,6 +73,7 @@ public class Test extends BaseEntity implements Comparable<Test> {
         this.user = user;
     }
 
+    //TODO: move to service?
 
     public void addStep(Step step) {
         TestStep testStep = new TestStep(this, step);

@@ -19,5 +19,4 @@ public class Role extends BaseEntity {
         this.name = name;
     }
 
-
 }

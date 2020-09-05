@@ -20,7 +20,7 @@ public class TestRestController {
         this.testService = testService;
         this.stepService = stepService;
     }
-
+    //@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "50") int limit
     @GetMapping("/tests")
     public List<Test> getTests() {
         return testService.findAll();
@@ -60,7 +60,7 @@ public class TestRestController {
         return test;
     }
 
-    @ResponseStatus(HttpStatus.GONE)
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/tests/{testId}")
     public String deleteTest(@PathVariable Long testId) {
         testService.deleteById(testId);
