@@ -16,6 +16,9 @@ public class DataLoader implements ApplicationRunner {
     }
 
     public void run(ApplicationArguments args) {
-        categoryService.save(new Category("None"));
+        try {
+            categoryService.save(new Category("None"));
+        } catch (Exception ex) {
+        }
     }
 }
