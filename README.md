@@ -1,8 +1,8 @@
 ## Test Management System application
-###This application is in development and created only in learning purposes.
+### This application is in development and created only in learning purposes.
 
-Deployed on [heroku](hhttps://test-management-system-mon.herokuapp.com/)
-Note: might take several minutes to start up
+Deployed on [heroku](https://test-management-system-mon.herokuapp.com/)
+(might take several minutes to start up for a first time)
 
 This application will be useful for test engineers.
 First user need to register:   
